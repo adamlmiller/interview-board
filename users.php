@@ -14,6 +14,24 @@ include 'common/session.php';
  */
 include 'common/header.php';
 
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    if (isset($_GET['action']) && ($_GET['action'] == 'delete' && isset($_GET['id']))) {
+        $delete = $mysql->prepare("DELETE FROM `users` WHERE `id` = ?");
+        $delete->bind_param("i", $_GET['id']);
+        $delete->execute();
+
+        if ($delete->affected_rows === -1) {
+            $flash = '<div class="alert alert-danger" role="alert">Error occurred when trying to delete user!';
+        } elseif ($delete->affected_rows === 0) {
+            $flash = '<div class="alert alert-danger" role="alert">Failed to delete user!</div>';
+        } else {
+            $flash = '<div class="alert alert-success" role="alert">User deleted successfully!</div>';
+        }
+
+        $delete->close();
+    }
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($_POST['action'] == 'create') {
         $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
@@ -23,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $insert->execute();
 
         if ($insert->affected_rows === -1) {
-            $flash = '<div class="alert alert-danger" role="alert">Error occurred when trying to save new user! <strong>Error: </strong> ' . $insert->error . '</div>';
+            $flash = '<div class="alert alert-danger" role="alert">Error occurred when trying to save new user!';
         } elseif ($insert->affected_rows === 0) {
             $flash = '<div class="alert alert-danger" role="alert">Failed to save new user!</div>';
         } else {
@@ -47,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         if ($update->affected_rows === -1) {
-            $flash = '<div class="alert alert-danger" role="alert">Error occurred when trying to update user! <strong>Error: </strong> ' . $update->error . '</div>';
+            $flash = '<div class="alert alert-danger" role="alert">Error occurred when trying to update user!';
         } elseif ($update->affected_rows === 0) {
             $flash = '<div class="alert alert-danger" role="alert">Failed to update user! Were any changes made?</div>';
         } else {
@@ -89,6 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <th scope="col" width="175px">Created</th>
                             <th scope="col" width="175px">Modified</th>
                             <th scope="col" width="175px">Last Login</th>
+                            <th scope="col" width="40px"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -105,7 +124,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     echo '  <td>' . date("M jS, Y g:i:sA", strtotime($user['created'])) . '</td>';
                                     echo '  <td>' . date("M jS, Y g:i:sA", strtotime($user['modified'])) . '</td>';
                                     echo '  <td>' . ($user['lastlogin'] ? date("M jS, Y g:i:sA", strtotime($user['lastlogin'])) : '<span class="badge badge-pill badge-danger">Never</span>') . '</td>';
+                                    echo '  <td><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteUser' . $user['id'] . '"><i class="fas fa-trash-alt"></i></button></td>';
                                     echo '</tr>';
+
+                                    echo '<div class="modal fade" id="deleteUser' .  $user['id'] . '" role="dialog" aria-hidden="true">';
+                                    echo '    <div class="modal-dialog" role="document">';
+                                    echo '        <div class="modal-content">';
+                                    echo '            <div class="modal-header">';
+                                    echo '                <h5 class="modal-title">Delete User</h5>';
+                                    echo '                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body">';
+                                    echo '                <p>Are you sure you want to delete this user?</p>';
+                                    echo '            </div>';
+                                    echo '            <div class="modal-footer">';
+                                    echo '                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>';
+                                    echo '                <button type="button" class="btn btn-danger" onclick="window.location=\'users.php?action=delete&id=' . $user['id'] . '\'">DELETE</button>';
+                                    echo '            </div>';
+                                    echo '        </div>';
+                                    echo '    </div>';
+                                    echo '</div>';
                                 }
                             } else {
                                 echo '<tr><th colspan="6">No users found!</th></tr>';
