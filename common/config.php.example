@@ -1,0 +1,33 @@
+<?php
+
+/*
+ * Application wide configurations.
+ * This is going to define an array that
+ * we're going to put all of our settings
+ * into that will be used application wide.
+ * Everything from database connection
+ * information to any API credentials should
+ * go here so that we have a central location
+ * to manage them.
+ *
+ * Why use an array instead of separate
+ * variables? I like being able to reference
+ * a specific setting using simple naming
+ * conventions yet having all of the settings
+ * available in one single variable.
+ */
+$config = [
+    'database' => [
+        'hostname' => '',
+        'username' => '',
+        'password' => '',
+        'database' => ''
+    ]
+];
+
+/*
+ * Set our default timezone. We use UTC because
+ * any data saved in the database will be stored
+ * in UTC so that it's easy to convert later.
+ */
+date_default_timezone_set('UTC');
