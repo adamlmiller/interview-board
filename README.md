@@ -4,7 +4,9 @@ This project was created based on a question from StackOverflow where a new deve
 
 ### Setup
 
-To set up this project, clone the project to your server. Once cloned, create a database and import the database from `database/database.sql`. Add your database credentials to `config/database.php` and you're all set!
+To set up this project, clone the project to your server. Once cloned, create a database and import the database from `database/database.sql`. 
+
+Next, move `common/config.php.example` to `config.php` and add your database credentials!
 
 ### User Interface
 
