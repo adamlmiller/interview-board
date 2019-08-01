@@ -60,6 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 $query->execute();
 
                                 header('location: index.php');
+                                exit();
                             }
                         }
                     } else {

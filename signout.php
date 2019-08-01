@@ -7,3 +7,5 @@ $_SESSION = array();
 session_destroy();
 
 header('location: signin.php');
+
+exit();

@@ -30,15 +30,15 @@ include 'database.php';
 <div class="sidebar">
     <div class="sidebar-middle">
         <ul>
-            <li><a href="index.php"><i class="fa fa-tachometer-alt"></i></a></li>
-            <li><a href="interviews.php"><i class="fas fa-address-book"></i></a></li>
-            <li><a href="questions.php"><i class="fas fa-question"></i></a></li>
-            <li><a href="users.php"><i class="fa fa-user"></i></a></li>
+            <li><a href="/"><i class="fa fa-tachometer-alt"></i></a></li>
+            <li><a href="/interviews/"><i class="fas fa-address-book"></i></a></li>
+            <li><a href="/questions/"><i class="fas fa-question"></i></a></li>
+            <li><a href="/users/"><i class="fa fa-user"></i></a></li>
         </ul>
     </div>
     <div class="sidebar-bottom">
         <ul>
-            <li><a href="signout.php"><i class="fa fa-sign-out-alt"></i></a></li>
+            <li><a href="/signout.php"><i class="fa fa-sign-out-alt"></i></a></li>
         </ul>
     </div>
 </div>
