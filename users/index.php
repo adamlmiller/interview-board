@@ -19,7 +19,7 @@ include '../common/header.php';
 <div class="header">
     <div class="row">
         <div class="col-md-6">
-            <h1>Users</h1>
+            <h1><i class="fa fa-users"></i> Users</h1>
         </div>
         <div class="col-md-6">
             <div class="float-right">
@@ -51,26 +51,32 @@ include '../common/header.php';
                     <tbody>
                     <?php
 
-                    if ($result = $mysql->query("SELECT * FROM users ORDER BY first_name, last_name ASC")) {
-                        if ($result->num_rows >= 1) {
-                            while ($user = $result->fetch_assoc()) {
-                                echo '<tr>';
-                                echo '  <td>' . $user['id'] . '</td>';
-                                echo '  <td>' . $user['first_name'] . ' ' . $user['last_name'] . '</td>';
-                                echo '  <td>' . $user['email'] . '</td>';
-                                echo '  <td>' . ($user['active'] ? '<span class="badge badge-pill badge-success">Active</span>':'<span class="badge badge-pill badge-danger">Disabled</span>') . '</td>';
-                                echo '  <td>' . date("M jS, Y g:i:sA", strtotime($user['created'])) . '</td>';
-                                echo '  <td>' . date("M jS, Y g:i:sA", strtotime($user['modified'])) . '</td>';
-                                echo '  <td>' . ($user['lastlogin'] ? date("M jS, Y g:i:sA", strtotime($user['lastlogin'])) : '<span class="badge badge-pill badge-danger">Never</span>') . '</td>';
-                                echo '  <td>';
-                                echo '    <a class="btn btn-sm btn-outline-dark" href="/users/read.php?id=' . $user['id'] . '"><i class="fas fa-glasses"></i></a>';
-                                echo '    <a class="btn btn-sm btn-outline-info" href="/users/update.php?id=' . $user['id'] . '"><i class="fas fa-pencil-alt"></i></a>';
-                                echo '    <a class="btn btn-sm btn-outline-danger" href="/users/delete.php?id=' . $user['id'] . '"><i class="fas fa-trash-alt"></i></a>';
-                                echo '  </td>';
-                                echo '</tr>';
+                    if ($query = $mysql->prepare("SELECT * FROM users WHERE id <> ? ORDER BY first_name, last_name ASC")) {
+                        if ($query->bind_param("i", $_SESSION['user']['id'])) {
+                            if ($query->execute()) {
+                                $result = $query->get_result();
+
+                                if ($result->num_rows === 0) {
+                                    echo '<tr><th colspan="8">No users found!</th></tr>';
+                                } else {
+                                    while ($user = $result->fetch_assoc()) {
+                                        echo '<tr>';
+                                        echo '  <td>' . $user['id'] . '</td>';
+                                        echo '  <td>' . $user['first_name'] . ' ' . $user['last_name'] . '</td>';
+                                        echo '  <td>' . $user['email'] . '</td>';
+                                        echo '  <td>' . ($user['active'] ? '<span class="badge badge-pill badge-success">Active</span>':'<span class="badge badge-pill badge-danger">Disabled</span>') . '</td>';
+                                        echo '  <td>' . date("M jS, Y g:i:sA", strtotime($user['created'])) . '</td>';
+                                        echo '  <td>' . date("M jS, Y g:i:sA", strtotime($user['modified'])) . '</td>';
+                                        echo '  <td>' . ($user['lastlogin'] ? date("M jS, Y g:i:sA", strtotime($user['lastlogin'])) : '<span class="badge badge-pill badge-danger">Never</span>') . '</td>';
+                                        echo '  <td>';
+                                        echo '    <a class="btn btn-sm btn-outline-dark" href="/users/read.php?id=' . $user['id'] . '"><i class="fas fa-glasses"></i></a>';
+                                        echo '    <a class="btn btn-sm btn-outline-info" href="/users/update.php?id=' . $user['id'] . '"><i class="fas fa-pencil-alt"></i></a>';
+                                        echo '    <button class="btn btn-sm btn-outline-danger btn-delete" data-id="' . $user['id'] . '" type="button"><i class="fas fa-trash-alt"></i></button>';
+                                        echo '  </td>';
+                                        echo '</tr>';
+                                    }
+                                }
                             }
-                        } else {
-                            echo '<tr><th colspan="8">No users found!</th></tr>';
                         }
                     } else {
                         echo '<tr><th colspan="8">Unknown error occurred!</th></tr>';
@@ -83,6 +89,30 @@ include '../common/header.php';
         </div>
     </div>
 </div>
+
+<div class="modal fade modal-delete" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.btn-delete').on('click', function() {
+            $.ajax({
+                url: '/users/delete.php',
+                method: 'GET',
+                data: {
+                    id : $(this).data('id')
+                },
+                dataType: 'html'
+            }).done(function(html) {
+                $('.modal-delete .modal-content').html(html);
+                $('.modal-delete').modal('show');
+            });
+        });
+    });
+</script>
 
 <?php
 

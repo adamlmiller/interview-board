@@ -27,13 +27,22 @@ include 'database.php';
 </head>
 <body>
 
+<div class="top">
+    <div class="navbar-header"></div>
+    <ul class="nav float-right">
+        <li><a href="/users/profile.php"><i class="fa fa-fw fa-user"></i> My Account</a></li>
+    </ul>
+</div>
 <div class="sidebar">
+    <div class="sidebar-top">
+        <a class="brand" href="/"><img src="/image/interview.png" /></a>
+    </div>
     <div class="sidebar-middle">
         <ul>
-            <li><a href="/"><i class="fa fa-tachometer-alt"></i></a></li>
+            <li><a href="/"><i class="fas fa-home"></i></a></li>
             <li><a href="/interviews/"><i class="fas fa-address-book"></i></a></li>
             <li><a href="/questions/"><i class="fas fa-question"></i></a></li>
-            <li><a href="/users/"><i class="fa fa-user"></i></a></li>
+            <li><a href="/users/"><i class="fa fa-users"></i></a></li>
         </ul>
     </div>
     <div class="sidebar-bottom">

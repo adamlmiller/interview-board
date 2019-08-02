@@ -37,7 +37,7 @@ if (!($query = $mysql->prepare("SELECT * FROM interviews WHERE id = ?"))) {
 <div class="header">
     <div class="row">
         <div class="col-md-6">
-            <h1>Interviews :: Read :: <?php echo $interview['first_name'] . ' ' . $interview['last_name']; ?></h1>
+            <h1><i class="fas fa-address-book"></i> Interviews :: Read :: <?php echo $interview['first_name'] . ' ' . $interview['last_name']; ?></h1>
         </div>
         <div class="col-md-6">
             <div class="float-right"></div>

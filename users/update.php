@@ -25,8 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'update') {
         }
     }
 
-    if ($query = $mysql->prepare("UPDATE `users` SET `first_name` = ?, `last_name` = ?, `phone` = ?, `email` = ?, `active` = 1 WHERE `id` = ?")) {
-        if ($query->bind_param("ssssi", $_POST['first_name'], $_POST['last_name'], $_POST['phone'], $_POST['email'], $_GET['id'])) {
+    if ($query = $mysql->prepare("UPDATE `users` SET `first_name` = ?, `last_name` = ?, `phone` = ?, `email` = ?, `active` = ? WHERE `id` = ?")) {
+        if ($query->bind_param("ssssii", $_POST['first_name'], $_POST['last_name'], $_POST['phone'], $_POST['email'], $_POST['active'], $_GET['id'])) {
             if ($query->execute()) {
                 if ($query->affected_rows === -1) {
                     $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to update user!';
@@ -69,7 +69,7 @@ if (!($query = $mysql->prepare("SELECT * FROM users WHERE id = ?"))) {
 <div class="header">
     <div class="row">
         <div class="col-md-6">
-            <h1>Users :: Update ::  <?php echo $user['first_name'] . ' ' . $user['last_name']; ?></h1>
+            <h1><i class="fa fa-users"></i> Users :: Update ::  <?php echo $user['first_name'] . ' ' . $user['last_name']; ?></h1>
         </div>
         <div class="col-md-6">
             <div class="float-right"></div>
@@ -111,6 +111,13 @@ if (!($query = $mysql->prepare("SELECT * FROM users WHERE id = ?"))) {
                         <label for="password">Password</label>
                         <input name="password" type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="Password">
                         <small id="passwordHelp" class="form-text text-muted">Enter a password for the user. <span class="text-danger">LEAVE BLANK TO NOT CHANGE!</span></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="active">Active</label>
+                        <select class="form-control selectpicker" name="active">
+                            <option value="0"<?php echo ($user['active'] == 0 ? ' selected' : ''); ?>>No</option>
+                            <option value="1"<?php echo ($user['active'] == 1 ? ' selected' : ''); ?>>Yes</option>
+                        </select>
                     </div>
 
                     <button type="submit" class="btn btn-block btn-primary"><i class="fas fa-save"></i> Save User</button>

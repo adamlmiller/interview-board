@@ -17,8 +17,8 @@ include '../common/header.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
     $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
-    if ($query = $mysql->prepare("INSERT INTO `users` SET `first_name` = ?, `last_name` = ?, `phone` = ?, `email` = ?, `password` = ?, `active` = 1")) {
-        if ($query->bind_param("sssss", $_POST['first_name'], $_POST['last_name'], $_POST['phone'], $_POST['email'], $password)) {
+    if ($query = $mysql->prepare("INSERT INTO `users` SET `first_name` = ?, `last_name` = ?, `phone` = ?, `email` = ?, `password` = ?, `active` = ?")) {
+        if ($query->bind_param("sssssi", $_POST['first_name'], $_POST['last_name'], $_POST['phone'], $_POST['email'], $password, $_POST['active'])) {
             if ($query->execute()) {
                 if ($query->affected_rows === -1) {
                     $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save new user!';
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
 <div class="header">
     <div class="row">
         <div class="col-md-6">
-            <h1>Users :: Create</h1>
+            <h1><i class="fa fa-users"></i> Users :: Create</h1>
         </div>
         <div class="col-md-6">
             <div class="float-right"></div>
@@ -87,6 +87,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
                         <label for="password">Password</label>
                         <input name="password" type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="Password">
                         <small id="passwordHelp" class="form-text text-muted">Enter a password for the user.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="active">Active</label>
+                        <select class="form-control selectpicker" name="active">
+                            <option value="0">No</option>
+                            <option value="1" selected>Yes</option>
+                        </select>
                     </div>
 
                     <button type="submit" class="btn btn-block btn-primary"><i class="fas fa-save"></i> Save User</button>

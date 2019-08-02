@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
 <div class="header">
     <div class="row">
         <div class="col-md-6">
-            <h1>Questions :: Create</h1>
+            <h1><i class="fas fa-question"></i> Questions :: Create</h1>
         </div>
         <div class="col-md-6">
             <div class="float-right"></div>

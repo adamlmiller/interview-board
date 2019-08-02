@@ -65,7 +65,7 @@ if (!($query = $mysql->prepare("SELECT * FROM interviews WHERE id = ?"))) {
 <div class="header">
     <div class="row">
         <div class="col-md-6">
-            <h1>Interviews :: Update :: <?php echo $interview['first_name'] . ' ' . $interview['last_name']; ?></h1>
+            <h1><i class="fas fa-address-book"></i> Interviews :: Update :: <?php echo $interview['first_name'] . ' ' . $interview['last_name']; ?></h1>
         </div>
         <div class="col-md-6">
             <div class="float-right"></div>
@@ -190,7 +190,7 @@ if (!($query = $mysql->prepare("SELECT * FROM interviews WHERE id = ?"))) {
 
                     <div class="form-group">
                         <label for="hire">Should we hire this person?</label>
-                        <select class="selectpicker" name="hire">
+                        <select class="form-control selectpicker" name="hire">
                             <option value="0"<?php echo ($interview['hire'] == 0 ? ' selected' : ''); ?>>No</option>
                             <option value="1"<?php echo ($interview['hire'] == 1 ? ' selected' : ''); ?>>Yes</option>
                             <option value="2"<?php echo ($interview['hire'] == 2 ? ' selected' : ''); ?>>Unsure</option>

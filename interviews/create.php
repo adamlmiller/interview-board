@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
 <div class="header">
     <div class="row">
         <div class="col-md-6">
-            <h1>Interviews :: Create</h1>
+            <h1><i class="fas fa-address-book"></i> Interviews :: Create</h1>
         </div>
         <div class="col-md-6">
             <div class="float-right"></div>
@@ -168,7 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
 
                     <div class="form-group">
                         <label for="hire">Should we hire this person?</label>
-                        <select class="selectpicker" name="hire">
+                        <select class="form-control selectpicker" name="hire">
                             <option value="0">No</option>
                             <option value="1">Yes</option>
                             <option value="2">Unsure</option>

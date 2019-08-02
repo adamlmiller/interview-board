@@ -14,10 +14,49 @@ include 'common/session.php';
  */
 include 'common/header.php';
 
+/*
+ * Get Total Interviews
+ */
+$interviews = $mysql->query("SELECT COUNT(*) AS total FROM interviews");
+
+/*
+ * Get Total Questions
+ */
+$questions = $mysql->query("SELECT COUNT(*) AS total FROM questions");
+
+/*
+ * Get Total Users
+ */
+$users = $mysql->query("SELECT COUNT(*) AS total FROM users");
+
 ?>
 
 <div class="header">
-    <h1>Dashboard</h1>
+    <h1><i class="fas fa-home"></i> Dashboard</h1>
+</div>
+
+<div class="row">
+    <div class="col-4">
+        <div class="tile">
+            <div class="tile-heading">Interviews</div>
+            <div class="tile-body"><i class="fas fa-address-book"></i><h2 class="float-right"><?php echo $interviews->fetch_assoc()['total']; ?></h2></div>
+            <div class="tile-footer"><a href="/interviews/">Go to Interviews <i class="fa fa-fw fa-angle-right"></i></a></div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="tile">
+            <div class="tile-heading">Questions</div>
+            <div class="tile-body"><i class="fas fa-question"></i><h2 class="float-right"><?php echo $questions->fetch_assoc()['total']; ?></h2></div>
+            <div class="tile-footer"><a href="/questions/">Go to Questions <i class="fa fa-fw fa-angle-right"></i></a></div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="tile">
+            <div class="tile-heading">Users</div>
+            <div class="tile-body"><i class="fa fa-users"></i><h2 class="float-right"><?php echo $users->fetch_assoc()['total']; ?></h2></div>
+            <div class="tile-footer"><a href="/users/">Go to Users <i class="fa fa-fw fa-angle-right"></i></a></div>
+        </div>
+    </div>
 </div>
 
 <div class="row">
@@ -45,7 +84,7 @@ include 'common/header.php';
                                 while ($interview = $query->fetch_assoc()) {
                                     echo '<tr>';
                                     echo '  <td>' . $interview['id'] . '</td>';
-                                    echo '  <td><a href="interviews/read.php?id=' . $interview['id'] . '">' . $interview['first_name'] . ' ' . $interview['last_name'] . '</a></td>';
+                                    echo '  <td>' . $interview['first_name'] . ' ' . $interview['last_name'] . '</td>';
                                     echo '  <td>' . $interview['email'] . '</td>';
                                     echo '  <td>' . $interview['phone'] . '</td>';
                                     echo '  <td>' . date("M jS, Y g:i:sA", strtotime($interview['created'])) . '</td>';

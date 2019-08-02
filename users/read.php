@@ -37,7 +37,7 @@ if (!($query = $mysql->prepare("SELECT * FROM users WHERE id = ?"))) {
 <div class="header">
     <div class="row">
         <div class="col-md-6">
-            <h1>Users :: Read :: <?php echo $user['first_name'] . ' ' . $user['last_name']; ?></h1>
+            <h1><i class="fa fa-users"></i> Users :: Read :: <?php echo $user['first_name'] . ' ' . $user['last_name']; ?></h1>
         </div>
         <div class="col-md-6">
             <div class="float-right"></div>

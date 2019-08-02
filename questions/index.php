@@ -19,7 +19,7 @@ include '../common/header.php';
 <div class="header">
     <div class="row">
         <div class="col-md-6">
-            <h1>Questions</h1>
+            <h1><i class="fas fa-question"></i> Questions</h1>
         </div>
         <div class="col-md-6">
             <div class="float-right">
@@ -61,7 +61,7 @@ include '../common/header.php';
                                         echo '  <td>';
                                         echo '    <a class="btn btn-sm btn-outline-dark" href="/questions/read.php?id=' . $question['id'] . '"><i class="fas fa-glasses"></i></a>';
                                         echo '    <a class="btn btn-sm btn-outline-info" href="/questions/update.php?id=' . $question['id'] . '"><i class="fas fa-pencil-alt"></i></a>';
-                                        echo '    <a class="btn btn-sm btn-outline-danger" href="/questions/delete.php?id=' . $question['id'] . '"><i class="fas fa-trash-alt"></i></a>';
+                                        echo '    <button class="btn btn-sm btn-outline-danger btn-delete" data-id="' . $question['id'] . '" type="button"><i class="fas fa-trash-alt"></i></button>';
                                         echo '  </td>';
                                         echo '</tr>';
                                     }
@@ -79,6 +79,30 @@ include '../common/header.php';
         </div>
     </div>
 </div>
+
+<div class="modal fade modal-delete" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.btn-delete').on('click', function() {
+            $.ajax({
+                url: '/questions/delete.php',
+                method: 'GET',
+                data: {
+                    id : $(this).data('id')
+                },
+                dataType: 'html'
+            }).done(function(html) {
+                $('.modal-delete .modal-content').html(html);
+                $('.modal-delete').modal('show');
+            });
+        });
+    });
+</script>
 
 <?php
 

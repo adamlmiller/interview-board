@@ -37,7 +37,7 @@ if (!($query = $mysql->prepare("SELECT * FROM questions WHERE id = ?"))) {
 <div class="header">
     <div class="row">
         <div class="col-md-6">
-            <h1>Questions :: Read</h1>
+            <h1><i class="fas fa-question"></i> Questions :: Read</h1>
         </div>
         <div class="col-md-6">
             <div class="float-right"></div>
