@@ -104,3 +104,19 @@ Here's a list of features that I plan to add to this application. When a feature
 6) Reports - Generate reports based on different data points (this needs to be further defined)
 7) Search - Add search capabilities to all feature sections
 ```
+
+## Ideas
+
+These are items that I am still pondering about doing.
+
+```
+1) Move actions into classes/models for better usability and code reusing
+2) Use jQuery->ajax to load table data (will be good for pagination as well since there is none right now)
+3) Implement pagination (even if we do not do number 2, this should still be done at some point)
+4) Create a demo application (reset data every 12 or 24 hours)
+5) Start using releases and branches appropriately
+```
+
+## Screenshots
+
+Need to spend some time creating snapshots and adding them here for people to see.
