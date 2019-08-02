@@ -41,6 +41,7 @@ include 'database.php';
         <ul>
             <li><a href="/"><i class="fas fa-home"></i></a></li>
             <li><a href="/interviews/"><i class="fas fa-address-book"></i></a></li>
+            <li><a href="/schedule/"><i class="far fa-calendar-alt"></i></a></li>
             <li><a href="/questions/"><i class="fas fa-question"></i></a></li>
             <li><a href="/users/"><i class="fa fa-users"></i></a></li>
         </ul>
