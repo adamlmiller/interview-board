@@ -12,6 +12,8 @@ Next, move `common/config.php.example` to `common/config.php` and add your datab
 
 The user interface uses Bootstrap 4.x from [getbootstrap.com](https://getbootstrap.com/).
 
+The icons are from Font Awesome [fontawesome.com](https://fontawesome.com).
+
 ## Features
 
 Track the following data models and attributes:
@@ -103,6 +105,7 @@ Here's a list of features that I plan to add to this application. When a feature
 5) Questions to Jobs - Allow specific questions to be assigned to specific job postings which will then be used during the interview process instead of the default all questions that are active.
 6) Reports - Generate reports based on different data points (this needs to be further defined)
 7) Search - Add search capabilities to all feature sections
+8) Mobile - Make the UI more user friendly (or create another project and use Ionic to create a mobile app??? will require an api!!!)
 ```
 
 ## Ideas
