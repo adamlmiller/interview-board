@@ -75,6 +75,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 
 <form action="signin.php" method="post" class="form-signin">
+    <div class="text-center"><img src="/image/interview-color.png" /></div>
+
+    <br />
+
     <?php if (!empty($flash)) { ?><div class="alert alert-danger" role="alert"><?php echo $flash; ?></div><?php } ?>
     <div class="form-group">
         <label for="email">E-Mail Address</label>

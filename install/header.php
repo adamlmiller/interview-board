@@ -17,3 +17,4 @@
 <body>
 
 <div class="container">
+    <div class="text-center"><img src="/image/interview-color.png" /></div>
