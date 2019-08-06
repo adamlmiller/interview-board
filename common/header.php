@@ -11,10 +11,16 @@
 include 'config.php';
 include 'database.php';
 
+if ($title = $mysql->query("SELECT value FROM options WHERE name = 'app_name'")) {
+    $title = $title->fetch_assoc()['value'];
+} else {
+    $title = 'Interview Portal';
+}
+
 ?>
 <html>
 <head>
-    <title>Interviews</title>
+    <title><?php echo $title; ?></title>
     <link href="/stylesheet/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="/stylesheet/bootstrap-select.min.css" rel="stylesheet" type="text/css" />
     <link href="/stylesheet/fontawesome.min.css" rel="stylesheet" type="text/css" />

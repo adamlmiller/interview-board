@@ -18,10 +18,10 @@
  */
 $config = [
     'database' => [
-        'hostname' => '',
-        'username' => '',
-        'password' => '',
-        'database' => ''
+        'hostname' => '{hostname}',
+        'username' => '{username}',
+        'password' => '{password}',
+        'database' => '{database}'
     ]
 ];
 

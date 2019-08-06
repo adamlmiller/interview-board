@@ -2,11 +2,9 @@
 
 This project was created based on a question from StackOverflow where a new developer needed some help. In the end, I decided it would be easier for me to spend a few hours writing a small project for him to show him coding styles, how to do basic queries to pull data from a database and how to display that data to the user. Since it is built to track interview information, I wanted to also integrate sessions and authentication.
 
-## Setup
+## Installation
 
-To set this project up in your own environment, clone the project to your server using `git`. Once cloned, create a database and import the database from `database/database.sql`.
-
-Next, move `common/config.php.example` to `common/config.php` and add your database credentials!
+To install this application, download or clone the project. Then, visit `http://yoursite.com/install/` and walk through the installation!
 
 ## User Interface
 
@@ -118,6 +116,12 @@ These are items that I am still pondering about doing.
 3) Implement pagination (even if we do not do number 2, this should still be done at some point)
 4) Create a demo application (reset data every 12 or 24 hours)
 5) Start using releases and branches appropriately
+```
+
+## Recent Additions
+
+```
+2019-08-06 - Added an installation wizard to help installing the application.
 ```
 
 ## Screenshots
