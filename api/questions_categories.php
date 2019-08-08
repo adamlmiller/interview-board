@@ -22,8 +22,10 @@ if ($query = $mysql->prepare("SELECT id,name FROM questions_categories WHERE act
             echo json_encode($categories);
         } else {
             header("HTTP/1.1 204 No Content");
+            exit;
         }
     } else {
         header("HTTP/1.1 204 No Content");
+        exit;
     }
 }

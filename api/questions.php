@@ -25,9 +25,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['questions_categories_id'
                 }
             } else {
                 header("HTTP/1.1 204 No Content");
+                exit;
             }
         } else {
             header("HTTP/1.1 204 No Content");
+            exit;
         }
     }
 }
@@ -43,9 +45,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id'])) {
                 }
             } else {
                 header("HTTP/1.1 204 No Content");
+                exit;
             }
         } else {
             header("HTTP/1.1 204 No Content");
+            exit;
         }
     }
 }
