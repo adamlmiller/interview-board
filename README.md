@@ -95,7 +95,6 @@ Last Login Date/Time
 
 Here's a list of features that I plan to add to this application. When a feature gets added, it will be removed from this list and added above.
 
-```
 1) Schedules - Schedule an interview and send reminders via e-mail.
 2) Jobs - Create job postings with information about each job.
 3) Candidates - Allow registration of candidates so they can sign in and apply for jobs.
@@ -104,30 +103,25 @@ Here's a list of features that I plan to add to this application. When a feature
 6) Reports - Generate reports based on different data points (this needs to be further defined)
 7) Search - Add search capabilities to all feature sections
 8) Mobile - Make the UI more user friendly (or create another project and use Ionic to create a mobile app??? will require an api!!!)
-```
 
 ## Ideas
 
 These are items that I am still pondering about doing.
 
-```
 1) Move actions into classes/models for better usability and code reusing
 2) Use jQuery->ajax to load table data (will be good for pagination as well since there is none right now)
 ~~3) Implement pagination (even if we do not do number 2, this should still be done at some point)~~
 4) Create a demo application (reset data every 12 or 24 hours)
 5) Start using releases and branches appropriately
-```
 
 ## Recent Additions
 
-```
 2019-08-05 - Added an installation wizard to help installing the application.
 2019-08-06 - Added custom page titles
 2019-08-07 - Added pagination class and simply pagination to all module indexes
 2019-08-07 - Added categories for questions
 2019-08-08 - Added dynamic questions to interviews
 2019-08-08 - Started creating a small API for use with AJAX requests (requires current active session so it cannot be used externally)
-```
 
 ## Screenshots
 
