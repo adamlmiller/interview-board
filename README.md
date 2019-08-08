@@ -116,12 +116,14 @@ These are items that I am still pondering about doing.
 
 ## Recent Additions
 
+```
 2019-08-05 - Added an installation wizard to help installing the application.
 2019-08-06 - Added custom page titles
 2019-08-07 - Added pagination class and simply pagination to all module indexes
 2019-08-07 - Added categories for questions
 2019-08-08 - Added dynamic questions to interviews
 2019-08-08 - Started creating a small API for use with AJAX requests (requires current active session so it cannot be used externally)
+```
 
 ## Screenshots
 
