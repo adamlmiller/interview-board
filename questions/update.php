@@ -1,30 +1,29 @@
 <?php
 
 /*
+ * Page Title
+ */
+$title = 'Update :: Questions';
+
+/*
  * We're going to include our session
  * controller to check for an active
  * session.
  */
-include '../common/session.php';
+include __DIR__ . '/../common/session.php';
 
 /*
  * We're going to include our header which
  * is going to be common throughout our
  * entire application.
  */
-include '../common/header.php';
+include __DIR__ . '/../common/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'update') {
-    if ($query = $mysql->prepare("UPDATE `questions` SET `name` = ?, `question` = ?, `active` = 1 WHERE `id` = ?")) {
-        if ($query->bind_param("ssi", $_POST['name'], $_POST['question'], $_POST['id'])) {
+    if ($query = $mysql->prepare("UPDATE `questions` SET `name` = ?, `questions_categories_id` = ?, `question` = ?, `active` = ? WHERE `id` = ?")) {
+        if ($query->bind_param("sisii", $_POST['name'], $_POST['questions_categories_id'], $_POST['question'], $_POST['active'], $_POST['id'])) {
             if ($query->execute()) {
-                if ($query->affected_rows === -1) {
-                    $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save question!</div>';
-                } elseif ($query->affected_rows === 0) {
-                    $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Failed to update question! Were any changes made?</div>';
-                } else {
-                    $_SESSION['flash'] = '<div class="alert alert-success" role="alert">Question updated successfully!</div>';
-                }
+                $_SESSION['flash'] = '<div class="alert alert-success" role="alert">Question updated successfully!</div>';
             } else {
                 $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save question!</div>';
             }
@@ -79,6 +78,26 @@ if (!($query = $mysql->prepare("SELECT * FROM questions WHERE id = ?"))) {
                         <input name="id" value="<?php echo $question['id']; ?>" type="hidden">
 
                         <div class="form-group">
+                            <label for="active">Question Category</label>
+                            <select class="form-control selectpicker" name="questions_categories_id">
+                                <?php
+
+                                if ($query = $mysql->query("SELECT id,name FROM questions_categories WHERE active = 1")) {
+                                    if ($query->num_rows >= 1) {
+                                        while ($category = $query->fetch_assoc()) {
+                                            if ($question['questions_categories_id'] == $category['id']) {
+                                                echo '<option value="' . $category['id'] . '" selected>' . $category['name'] . '</option>';
+                                            } else {
+                                                echo '<option value="' . $category['id'] . '">' . $category['name'] . '</option>';
+                                            }
+                                        }
+                                    }
+                                }
+
+                                ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="name">Name</label>
                             <input name="name" type="text" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Name" value="<?php echo $question['name']; ?>">
                             <small id="nameHelp" class="form-text text-muted">Enter a short identifier for this question.</small>
@@ -87,6 +106,13 @@ if (!($query = $mysql->prepare("SELECT * FROM questions WHERE id = ?"))) {
                             <label for="question">Question</label>
                             <textarea name="question" rows="10" class="form-control" id="question" aria-describedby="questionHelp" placeholder="Enter the question here..."><?php echo $question['question']; ?></textarea>
                             <small id="questionHelp" class="form-text text-muted">Please provide your question above. Be as specific as possible and remember to check or grammar and spelling.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="active">Active</label>
+                            <select class="form-control selectpicker" name="active">
+                                <option value="0"<?php echo ($question['active'] == 0 ? ' selected' : ''); ?>>No</option>
+                                <option value="1"<?php echo ($question['active'] == 1 ? ' selected' : ''); ?>>Yes</option>
+                            </select>
                         </div>
 
                         <button type="submit" class="btn btn-block btn-primary"><i class="fas fa-save"></i> Save Question</button>
@@ -104,6 +130,6 @@ if (!($query = $mysql->prepare("SELECT * FROM questions WHERE id = ?"))) {
  * is going to be common throughout our
  * entire application just like the header.
  */
-include '../common/footer.php';
+include __DIR__ . '/../common/footer.php';
 
 ?>

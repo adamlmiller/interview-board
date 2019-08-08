@@ -1,18 +1,23 @@
 <?php
 
 /*
+ * Page Title
+ */
+$title = 'Schedule';
+
+/*
  * We're going to include our session
  * controller to check for an active
  * session.
  */
-include '../common/session.php';
+include __DIR__ . '/../common/session.php';
 
 /*
  * We're going to include our header which
  * is going to be common throughout our
  * entire application.
  */
-include '../common/header.php';
+include __DIR__ . '/../common/header.php';
 
 ?>
 
@@ -38,6 +43,6 @@ include '../common/header.php';
  * is going to be common throughout our
  * entire application just like the header.
  */
-include '../common/footer.php';
+include __DIR__ . '/../common/footer.php';
 
 ?>

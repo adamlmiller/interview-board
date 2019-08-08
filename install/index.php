@@ -1,4 +1,4 @@
-<?php include 'header.php'; ?>
+<?php include __DIR__ . '/header.php'; ?>
 <div class="row">
     <div class="col-md-12 col-lg-12 col-xl-12">
         <div class="box">
@@ -114,4 +114,4 @@
         </div>
     </div>
 </div>
-<?php include 'footer.php'; ?>
+<?php include __DIR__ . '/footer.php'; ?>

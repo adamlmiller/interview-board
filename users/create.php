@@ -1,18 +1,23 @@
 <?php
 
 /*
+ * Page Title
+ */
+$title = 'Create :: Users';
+
+/*
  * We're going to include our session
  * controller to check for an active
  * session.
  */
-include '../common/session.php';
+include __DIR__ . '/../common/session.php';
 
 /*
  * We're going to include our header which
  * is going to be common throughout our
  * entire application.
  */
-include '../common/header.php';
+include __DIR__ . '/../common/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
     $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
@@ -20,16 +25,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
     if ($query = $mysql->prepare("INSERT INTO `users` SET `first_name` = ?, `last_name` = ?, `phone` = ?, `email` = ?, `password` = ?, `active` = ?")) {
         if ($query->bind_param("sssssi", $_POST['first_name'], $_POST['last_name'], $_POST['phone'], $_POST['email'], $password, $_POST['active'])) {
             if ($query->execute()) {
-                if ($query->affected_rows === -1) {
-                    $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save new user!';
-                } elseif ($query->affected_rows === 0) {
-                    $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Failed to save new user!</div>';
-                } else {
-                    $_SESSION['flash'] = '<div class="alert alert-success" role="alert">User created successfully!</div>';
+                $_SESSION['flash'] = '<div class="alert alert-success" role="alert">User created successfully!</div>';
 
-                    header('location: /users/index.php');
-                    exit();
-                }
+                header('location: /users/index.php');
+                exit();
             } else {
                 $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save user!</div>';
             }
@@ -116,6 +115,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
  * is going to be common throughout our
  * entire application just like the header.
  */
-include '../common/footer.php';
+include __DIR__ . '/../common/footer.php';
 
 ?>

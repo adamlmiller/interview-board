@@ -8,7 +8,7 @@
  * reference the database.php file directly
  * from that file.
  */
-include 'config.php';
+include __DIR__ . '/config.php';
 
 /*
  * We're going to control the user

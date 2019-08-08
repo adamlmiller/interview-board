@@ -1,36 +1,39 @@
 <?php
 
 /*
+ * Page Title
+ */
+$title = 'Update :: Interviews';
+
+/*
  * We're going to include our session
  * controller to check for an active
  * session.
  */
-include '../common/session.php';
+include __DIR__ . '/../common/session.php';
 
 /*
  * We're going to include our header which
  * is going to be common throughout our
  * entire application.
  */
-include '../common/header.php';
+include __DIR__ . '/../common/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'update') {
     if ($query = $mysql->prepare("UPDATE `interviews` SET `first_name` = ?, `last_name` = ?, `email` = ?, `phone` = ?, `date` = ?, `method` = ?, `qa` = ?, `notes` = ?, `hire` = ? WHERE id = ?")) {
         if ($query->bind_param("sssssssssi", $_POST['first_name'], $_POST['last_name'], $_POST['email'], $_POST['phone'], $_POST['date'], $_POST['method'], $_POST['qa'], $_POST['notes'], $_POST['hire'], $_GET['id'])) {
             if ($query->execute()) {
-                if ($query->affected_rows === -1) {
-                    $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save interview!</div>';
-                } elseif ($query->affected_rows === 0) {
-                    $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Failed to save interview! Were any changes made?</div>';
-                } else {
-                    foreach ($_POST['answer'] AS $key => $value) {
-                        $answer = $mysql->prepare("UPDATE `interviews_answers` SET `answer` = ? WHERE `interview_id` = ? AND `question_id` = ?");
-                        $answer->bind_param("sii", $value, $_GET['id'], $key);
-                        $answer->execute();
-                    }
+                $query = $mysql->prepare("DELETE FROM `interviews_answers` WHERE `interview_id` = ?");
+                $query->bind_param("i", $_GET['id']);
+                $query->execute();
 
-                    $_SESSION['flash'] = '<div class="alert alert-success" role="alert">Interview updated successfully!</div>';
+                foreach ($_POST['answer'] AS $key => $value) {
+                    $answer = $mysql->prepare("INSERT INTO `interviews_answers` SET `interview_id` = ?, `question_id` = ?, `answer` = ?");
+                    $answer->bind_param("iis", $_GET['id'], $key, $value);
+                    $answer->execute();
                 }
+
+                $_SESSION['flash'] = '<div class="alert alert-success" role="alert">Interview updated successfully!</div>';
             } else {
                 $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save interview!</div>';
             }
@@ -156,10 +159,16 @@ if (!($query = $mysql->prepare("SELECT * FROM interviews WHERE id = ?"))) {
 
                     <hr />
 
-                    <h5>Question and Answer</h5>
+                    <div class="row">
+                        <div class="col-2"><h5>Questions</h5></div>
+                        <div class="col-3"><select class="form-control selectpicker" id="categories"></select></div>
+                        <div class="col-5"><select class="form-control selectpicker" id="questions"></select></div>
+                        <div class="col-2"><button type="button" class="btn btn-primary btn-block btn-add-question"><i class="fas fa-plus"></i> Add Question</button></div>
+                    </div>
 
                     <hr />
 
+                    <div id="interview_questions">
                     <?php
 
                     if (!($query = $mysql->prepare("SELECT * FROM interviews_answers ia, questions q WHERE q.id = ia.question_id AND interview_id = ?"))) {
@@ -178,7 +187,7 @@ if (!($query = $mysql->prepare("SELECT * FROM interviews WHERE id = ?"))) {
                                 $i = 1;
 
                                 while ($answer = $result->fetch_assoc()) {
-                                    echo '<div class="form-group"><label for="question' . $answer['question_id'] . '">' . $i . ') ' . $answer['question'] . '</label><textarea rows="5" name="answer[' . $answer['question_id'] . ']" class="form-control" id="question' . $answer['question_id'] . '">' . $answer['answer'] . '</textarea></div>';
+                                    echo '<div class="form-group"><label for="question' . $answer['question_id'] . '">' . $answer['question'] . '</label><textarea rows="5" name="answer[' . $answer['question_id'] . ']" class="form-control" id="question' . $answer['question_id'] . '">' . $answer['answer'] . '</textarea></div>';
 
                                     $i++;
                                 }
@@ -187,6 +196,7 @@ if (!($query = $mysql->prepare("SELECT * FROM interviews WHERE id = ?"))) {
                     }
 
                     ?>
+                    </div>
 
                     <div class="form-group">
                         <label for="hire">Should we hire this person?</label>
@@ -208,6 +218,60 @@ if (!($query = $mysql->prepare("SELECT * FROM interviews WHERE id = ?"))) {
     $(document).ready(function() {
         $('#date').mask('0000-00-00', {placeholder: "yyyy-mm-dd"});
         $('#phone').mask('(000) 000-0000', {placeholder: "(000) 000-0000"});
+
+        $.ajax({
+            url: '/api/questions_categories.php',
+            method: 'GET',
+            cache: false,
+            dataType: 'json',
+            success: function(data) {
+                var categories = '<option value="0">-- Select Question Category --</option>';
+
+                $.each(data, function(index, category) {
+                    categories += '<option value="' + category['id'] + '">' + category['name'] + '</option>';
+                });
+
+                $('#categories').append(categories).selectpicker('refresh');
+            }
+        });
+
+        $('#categories').change(function() {
+            $.ajax({
+                url: '/api/questions.php',
+                method: 'GET',
+                cache: false,
+                dataType: 'json',
+                data: {
+                    questions_categories_id: $('#categories').val()
+                },
+                success: function(data) {
+                    var questions = '<option value="0">-- Select Question --</option>';
+
+                    $.each(data, function(index, question) {
+                        questions += '<option value="' + question['id'] + '">' + question['name'] + '</option>';
+                    });
+
+                    $('#questions').find('option').remove().end().append(questions).selectpicker('refresh');
+                }
+            });
+        });
+
+        $('.btn-add-question').click(function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: '/api/questions.php',
+                method: 'GET',
+                cache: false,
+                dataType: 'json',
+                data: {
+                    id: $('#questions').val()
+                },
+                success: function(data) {
+                    $('#interview_questions').append('<div class="form-group"><label for="question' + data['id'] + '">' + data['question'] + '</label><textarea rows="5" name="answer[' + data['id'] + ']" class="form-control" id="question' + data['id'] + '"></textarea></div>');
+                }
+            });
+        });
     });
 </script>
 <?php } ?>
@@ -219,6 +283,6 @@ if (!($query = $mysql->prepare("SELECT * FROM interviews WHERE id = ?"))) {
  * is going to be common throughout our
  * entire application just like the header.
  */
-include '../common/footer.php';
+include __DIR__ . '/../common/footer.php';
 
 ?>

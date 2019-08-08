@@ -1,18 +1,23 @@
 <?php
 
 /*
+ * Page Title
+ */
+$title = 'Users';
+
+/*
  * We're going to include our session
  * controller to check for an active
  * session.
  */
-include '../common/session.php';
+include __DIR__ . '/../common/session.php';
 
 /*
  * We're going to include our header which
  * is going to be common throughout our
  * entire application.
  */
-include '../common/header.php';
+include __DIR__ . '/../common/header.php';
 
 ?>
 
@@ -35,56 +40,59 @@ include '../common/header.php';
     <div class="col-md-12 col-lg-12 col-xl-12">
         <div class="box">
             <div class="box-body">
-                <table class="table table-striped table-hover">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col" width="25px">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">E-Mail</th>
-                            <th scope="col" width="75px">Active</th>
-                            <th scope="col" width="175px">Created</th>
-                            <th scope="col" width="175px">Modified</th>
-                            <th scope="col" width="175px">Last Login</th>
-                            <th scope="col" width="100px"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <?php
+                <?php
 
-                    if ($query = $mysql->prepare("SELECT * FROM users WHERE id <> ? ORDER BY first_name, last_name ASC")) {
-                        if ($query->bind_param("i", $_SESSION['user']['id'])) {
-                            if ($query->execute()) {
-                                $result = $query->get_result();
+                $limit = (isset($_GET['limit'])) ? $_GET['limit'] : 25;
+                $page = (isset($_GET['page'])) ? $_GET['page'] : 1;
+                $links = (isset($_GET['links'])) ? $_GET['links'] : 5;
 
-                                if ($result->num_rows === 0) {
-                                    echo '<tr><th colspan="8">No users found!</th></tr>';
-                                } else {
-                                    while ($user = $result->fetch_assoc()) {
-                                        echo '<tr>';
-                                        echo '  <td>' . $user['id'] . '</td>';
-                                        echo '  <td>' . $user['first_name'] . ' ' . $user['last_name'] . '</td>';
-                                        echo '  <td>' . $user['email'] . '</td>';
-                                        echo '  <td>' . ($user['active'] ? '<span class="badge badge-pill badge-success">Active</span>':'<span class="badge badge-pill badge-danger">Disabled</span>') . '</td>';
-                                        echo '  <td>' . date("M jS, Y g:i:sA", strtotime($user['created'])) . '</td>';
-                                        echo '  <td>' . date("M jS, Y g:i:sA", strtotime($user['modified'])) . '</td>';
-                                        echo '  <td>' . ($user['lastlogin'] ? date("M jS, Y g:i:sA", strtotime($user['lastlogin'])) : '<span class="badge badge-pill badge-danger">Never</span>') . '</td>';
-                                        echo '  <td>';
-                                        echo '    <a class="btn btn-sm btn-outline-dark" href="/users/read.php?id=' . $user['id'] . '"><i class="fas fa-glasses"></i></a>';
-                                        echo '    <a class="btn btn-sm btn-outline-info" href="/users/update.php?id=' . $user['id'] . '"><i class="fas fa-pencil-alt"></i></a>';
-                                        echo '    <button class="btn btn-sm btn-outline-danger btn-delete" data-id="' . $user['id'] . '" type="button"><i class="fas fa-trash-alt"></i></button>';
-                                        echo '  </td>';
-                                        echo '</tr>';
-                                    }
+                $paginator = new Paginator($mysql, "SELECT * FROM users WHERE id <> {$_SESSION['user']['id']} ORDER BY first_name, last_name ASC");
+
+                ?>
+                <?php if ($users = $paginator->fetch($limit, $page)) { ?>
+                    <table class="table table-striped table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col" width="25px">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">E-Mail</th>
+                                <th scope="col" width="75px">Active</th>
+                                <th scope="col" width="175px">Created</th>
+                                <th scope="col" width="175px">Modified</th>
+                                <th scope="col" width="175px">Last Login</th>
+                                <th scope="col" width="100px"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+
+                            if (count($users->data) >= 1) {
+                                foreach ($users->data AS $user) {
+                                    echo '<tr>';
+                                    echo '  <td>' . $user['id'] . '</td>';
+                                    echo '  <td>' . $user['first_name'] . ' ' . $user['last_name'] . '</td>';
+                                    echo '  <td>' . $user['email'] . '</td>';
+                                    echo '  <td>' . ($user['active'] ? '<span class="badge badge-pill badge-success">Active</span>' : '<span class="badge badge-pill badge-danger">Disabled</span>') . '</td>';
+                                    echo '  <td>' . date("M jS, Y g:i:sA", strtotime($user['created'])) . '</td>';
+                                    echo '  <td>' . date("M jS, Y g:i:sA", strtotime($user['modified'])) . '</td>';
+                                    echo '  <td>' . ($user['lastlogin'] ? date("M jS, Y g:i:sA", strtotime($user['lastlogin'])) : '<span class="badge badge-pill badge-danger">Never</span>') . '</td>';
+                                    echo '  <td class="text-right">';
+                                    echo '    <a class="btn btn-sm btn-outline-dark" href="/users/read.php?id=' . $user['id'] . '"><i class="fas fa-glasses"></i></a>';
+                                    echo '    <a class="btn btn-sm btn-outline-info" href="/users/update.php?id=' . $user['id'] . '"><i class="fas fa-pencil-alt"></i></a>';
+                                    echo '    <button class="btn btn-sm btn-outline-danger btn-delete" data-id="' . $user['id'] . '" type="button"><i class="fas fa-trash-alt"></i></button>';
+                                    echo '  </td>';
+                                    echo '</tr>';
                                 }
+                            } else {
+                                echo '<tr><th colspan="8">No users found!</th></tr>';
                             }
-                        }
-                    } else {
-                        echo '<tr><th colspan="8">Unknown error occurred!</th></tr>';
-                    }
 
-                    ?>
-                    </tbody>
-                </table>
+                            ?>
+                        </tbody>
+                    </table>
+
+                    <?php echo $paginator->links($links); ?>
+                <?php } ?>
             </div>
         </div>
     </div>
@@ -121,6 +129,6 @@ include '../common/header.php';
  * is going to be common throughout our
  * entire application just like the header.
  */
-include '../common/footer.php';
+include __DIR__ . '/../common/footer.php';
 
 ?>

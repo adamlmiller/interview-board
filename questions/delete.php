@@ -5,14 +5,14 @@
  * controller to check for an active
  * session.
  */
-include '../common/session.php';
+include __DIR__ . '/../common/session.php';
 
 /*
  * We're going to include our database
  * directly because we do not need the
  * header here.
  */
-include '../common/database.php';
+include __DIR__ . '/../common/database.php';
 
 if (($_SERVER['REQUEST_METHOD'] == 'POST') && ($_POST['action'] == 'delete') && (isset($_POST['id']))) {
     if (!($query = $mysql->prepare("SELECT * FROM questions WHERE id = ?"))) {
@@ -28,20 +28,26 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && ($_POST['action'] == 'delete') && 
             if ($result->num_rows === 0) {
                 $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Unable to find question as referenced!</div>';
             } else {
-                $query = $mysql->prepare("DELETE FROM `interviews_answers` WHERE `question_id` = ?");
+                $query = $mysql->prepare("SELECT COUNT(*) FROM `interviews_answers` WHERE `question_id` = ?");
                 $query->bind_param("i", $_POST['id']);
                 $query->execute();
 
-                $query = $mysql->prepare("DELETE FROM `questions` WHERE `id` = ?");
-                $query->bind_param("i", $_POST['id']);
-                $query->execute();
+                $result = $query->get_result();
 
-                if ($query->affected_rows === -1) {
-                    $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to delete question!</div>';
-                } elseif ($query->affected_rows === 0) {
-                    $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Failed to delete question!</div>';
+                if ($result->num_rows === 0) {
+                    $query = $mysql->prepare("DELETE FROM `questions` WHERE `id` = ?");
+                    $query->bind_param("i", $_POST['id']);
+                    $query->execute();
+
+                    if ($query->affected_rows === -1) {
+                        $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to delete question!</div>';
+                    } elseif ($query->affected_rows === 0) {
+                        $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Failed to delete question!</div>';
+                    } else {
+                        $_SESSION['flash'] = '<div class="alert alert-success" role="alert">Question deleted successfully!</div>';
+                    }
                 } else {
-                    $_SESSION['flash'] = '<div class="alert alert-success" role="alert">Question deleted successfully!</div>';
+                    $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Question cannot be deleted because it has been used during interviews!</div>';
                 }
             }
         }

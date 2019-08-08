@@ -5,14 +5,14 @@
  * controller to check for an active
  * session.
  */
-include '../common/session.php';
+include __DIR__ . '/../common/session.php';
 
 /*
  * We're going to include our database
  * directly because we do not need the
  * header here.
  */
-include '../common/database.php';
+include __DIR__ . '/../common/database.php';
 
 if (($_SERVER['REQUEST_METHOD'] == 'POST') && ($_POST['action'] == 'delete') && (isset($_POST['id']))) {
     if ($_POST['id'] == $_SESSION['user']['id']) {

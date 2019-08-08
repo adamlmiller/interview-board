@@ -1,18 +1,23 @@
 <?php
 
 /*
+ * Page Title
+ */
+$title = 'Home';
+
+/*
  * We're going to include our session
  * controller to check for an active
  * session.
  */
-include 'common/session.php';
+include __DIR__ . '/common/session.php';
 
 /*
  * We're going to include our header which
  * is going to be common throughout our
  * entire application.
  */
-include 'common/header.php';
+include __DIR__ . '/common/header.php';
 
 /*
  * Get Total Interviews
@@ -89,10 +94,9 @@ $users = $mysql->query("SELECT COUNT(*) AS total FROM users");
                                     echo '  <td>' . $interview['phone'] . '</td>';
                                     echo '  <td>' . date("M jS, Y g:i:sA", strtotime($interview['created'])) . '</td>';
                                     echo '  <td>' . date("M jS, Y g:i:sA", strtotime($interview['modified'])) . '</td>';
-                                    echo '  <td>';
+                                    echo '  <td class="text-right">';
                                     echo '    <a class="btn btn-sm btn-outline-dark" href="/interviews/read.php?id=' . $interview['id'] . '"><i class="fas fa-glasses"></i></a>';
                                     echo '    <a class="btn btn-sm btn-outline-info" href="/interviews/update.php?id=' . $interview['id'] . '"><i class="fas fa-pencil-alt"></i></a>';
-                                    echo '    <a class="btn btn-sm btn-outline-danger" href="/interviews/delete.php?id=' . $interview['id'] . '"><i class="fas fa-trash-alt"></i></a>';
                                     echo '  </td>';
                                     echo '</tr>';
                                 }
@@ -118,6 +122,6 @@ $users = $mysql->query("SELECT COUNT(*) AS total FROM users");
  * is going to be common throughout our
  * entire application just like the header.
  */
-include 'common/footer.php';
+include __DIR__ . '/common/footer.php';
 
 ?>

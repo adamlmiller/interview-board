@@ -1,18 +1,23 @@
 <?php
 
 /*
+ * Page Title
+ */
+$title = 'Update :: Users';
+
+/*
  * We're going to include our session
  * controller to check for an active
  * session.
  */
-include '../common/session.php';
+include __DIR__ . '/../common/session.php';
 
 /*
  * We're going to include our header which
  * is going to be common throughout our
  * entire application.
  */
-include '../common/header.php';
+include __DIR__ . '/../common/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'update') {
     if (!empty($_POST['password'])) {
@@ -28,13 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'update') {
     if ($query = $mysql->prepare("UPDATE `users` SET `first_name` = ?, `last_name` = ?, `phone` = ?, `email` = ?, `active` = ? WHERE `id` = ?")) {
         if ($query->bind_param("ssssii", $_POST['first_name'], $_POST['last_name'], $_POST['phone'], $_POST['email'], $_POST['active'], $_GET['id'])) {
             if ($query->execute()) {
-                if ($query->affected_rows === -1) {
-                    $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to update user!';
-                } elseif ($query->affected_rows === 0) {
-                    $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Failed to update user! Were any changes made?</div>';
-                } else {
-                    $_SESSION['flash'] = '<div class="alert alert-success" role="alert">User updated successfully!</div>';
-                }
+                $_SESSION['flash'] = '<div class="alert alert-success" role="alert">User updated successfully!</div>';
             } else {
                 $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save user!</div>';
             }
@@ -141,6 +140,6 @@ if (!($query = $mysql->prepare("SELECT * FROM users WHERE id = ?"))) {
  * is going to be common throughout our
  * entire application just like the header.
  */
-include '../common/footer.php';
+include __DIR__ . '/../common/footer.php';
 
 ?>

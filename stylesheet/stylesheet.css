@@ -53,3 +53,9 @@ h6 { font-size:130%; }
 .tile .tile-footer { padding:.75rem 1rem; background-color:#343a40; text-align:right; border-radius:0 0 .5rem .5rem; }
 .tile .tile-footer a:link, .tile .tile-footer a:visited, .tile .tile-footer a:active { color:#fff; }
 .tile .tile-footer a:hover { text-decoration:underline; }
+
+.pagination { margin:0; padding:0; }
+.pagination-showing { padding:.5em 0 0 0; }
+.pagination .page-item .page-link { color:#343a40; }
+.pagination .page-item .page-link:hover { border-color:#343a40; }
+.pagination .page-item.active .page-link { background:#343a40; border-color:#343a40; color:#fff; }

@@ -1,5 +1,3 @@
-        </main>
-    </div>
 </div>
 
 </body>

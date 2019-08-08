@@ -5,11 +5,16 @@ if (isset($_SESSION['allowed']) && $_SESSION['allowed'] === true) {
 }
 
 /*
+ * Page Title
+ */
+$title = 'Sign In';
+
+/*
  * We're going to include our header which
  * is going to be common throughout our
  * entire application.
  */
-include 'common/header_signin.php';
+include __DIR__ . '/common/header_signin.php';
 
 $flash = '';
 $emptyEmail = false;
@@ -98,6 +103,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
  * is going to be common throughout our
  * entire application just like the header.
  */
-include 'common/footer.php';
+include __DIR__ . '/common/footer.php';
 
 ?>

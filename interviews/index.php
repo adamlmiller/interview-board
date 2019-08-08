@@ -1,18 +1,23 @@
 <?php
 
 /*
+ * Page Title
+ */
+$title = 'Interviews';
+
+/*
  * We're going to include our session
  * controller to check for an active
  * session.
  */
-include '../common/session.php';
+include __DIR__ . '/../common/session.php';
 
 /*
  * We're going to include our header which
  * is going to be common throughout our
  * entire application.
  */
-include '../common/header.php';
+include __DIR__ . '/../common/header.php';
 
 ?>
 
@@ -35,57 +40,67 @@ include '../common/header.php';
     <div class="col-md-12 col-lg-12 col-xl-12">
         <div class="box">
             <div class="box-body">
-                <table class="table table-striped table-hover">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col" width="25px">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">E-Mail</th>
-                            <th scope="col" width="100px">Hire?</th>
-                            <th scope="col" width="100px">Phone</th>
-                            <th scope="col" width="100px">Date</th>
-                            <th scope="col" width="175px">Created</th>
-                            <th scope="col" width="175px">Modified</th>
-                            <th scope="col" width="100px"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <?php
+                <?php
 
-                    if ($query = $mysql->query("SELECT * FROM interviews ORDER BY created DESC")) {
-                        if ($query->num_rows >= 1) {
-                            while ($interview = $query->fetch_assoc()) {
-                                echo '<tr>';
-                                echo '  <td>' . $interview['id'] . '</td>';
-                                echo '  <td>' . $interview['first_name'] . ' ' . $interview['last_name'] . '</td>';
-                                echo '  <td>' . $interview['email'] . '</td>';
-                                echo '  <td>';
+                $limit = (isset($_GET['limit'])) ? $_GET['limit'] : 25;
+                $page = (isset($_GET['page'])) ? $_GET['page'] : 1;
+                $links = (isset($_GET['links'])) ? $_GET['links'] : 5;
 
-                                if ($interview['hire'] == 0) echo '<span class="badge badge-pill badge-danger">No</span>';
-                                if ($interview['hire'] == 1) echo '<span class="badge badge-pill badge-success">Yes</span>';
-                                if ($interview['hire'] == 2) echo '<span class="badge badge-pill badge-info">Unsure</span>';
+                $paginator = new Paginator($mysql, "SELECT * FROM interviews ORDER BY created ASC");
 
-                                echo '  <td>' . $interview['phone'] . '</td>';
-                                echo '  <td>' . date("M jS, Y", strtotime($interview['date'])) . '</td>';
-                                echo '  <td>' . date("M jS, Y g:i:sA", strtotime($interview['created'])) . '</td>';
-                                echo '  <td>' . date("M jS, Y g:i:sA", strtotime($interview['modified'])) . '</td>';
-                                echo '  <td>';
-                                echo '    <a class="btn btn-sm btn-outline-dark" href="/interviews/read.php?id=' . $interview['id'] . '"><i class="fas fa-glasses"></i></a>';
-                                echo '    <a class="btn btn-sm btn-outline-info" href="/interviews/update.php?id=' . $interview['id'] . '"><i class="fas fa-pencil-alt"></i></a>';
-                                echo '    <button class="btn btn-sm btn-outline-danger btn-delete" data-id="' . $interview['id'] . '" type="button"><i class="fas fa-trash-alt"></i></button>';
-                                echo '  </td>';
-                                echo '</tr>';
+                ?>
+                <?php if ($interviews = $paginator->fetch($limit, $page)) { ?>
+                    <table class="table table-striped table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col" width="25px">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">E-Mail</th>
+                                <th scope="col" width="100px">Hire?</th>
+                                <th scope="col" width="100px">Phone</th>
+                                <th scope="col" width="100px">Date</th>
+                                <th scope="col" width="175px">Created</th>
+                                <th scope="col" width="175px">Modified</th>
+                                <th scope="col" width="100px"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+
+                            if (count($interviews->data) >= 1) {
+                                foreach ($interviews->data AS $interview) {
+                                    echo '<tr>';
+                                    echo '  <td>' . $interview['id'] . '</td>';
+                                    echo '  <td>' . $interview['first_name'] . ' ' . $interview['last_name'] . '</td>';
+                                    echo '  <td>' . $interview['email'] . '</td>';
+                                    echo '  <td>';
+
+                                    if ($interview['hire'] == 0) echo '<span class="badge badge-pill badge-danger">No</span>';
+                                    if ($interview['hire'] == 1) echo '<span class="badge badge-pill badge-success">Yes</span>';
+                                    if ($interview['hire'] == 2) echo '<span class="badge badge-pill badge-info">Unsure</span>';
+
+                                    echo '  </td>';
+                                    echo '  <td>' . $interview['phone'] . '</td>';
+                                    echo '  <td>' . date("M jS, Y", strtotime($interview['date'])) . '</td>';
+                                    echo '  <td>' . date("M jS, Y g:i:sA", strtotime($interview['created'])) . '</td>';
+                                    echo '  <td>' . date("M jS, Y g:i:sA", strtotime($interview['modified'])) . '</td>';
+                                    echo '  <td class="text-right">';
+                                    echo '    <a class="btn btn-sm btn-outline-dark" href="/interviews/read.php?id=' . $interview['id'] . '"><i class="fas fa-glasses"></i></a>';
+                                    echo '    <a class="btn btn-sm btn-outline-info" href="/interviews/update.php?id=' . $interview['id'] . '"><i class="fas fa-pencil-alt"></i></a>';
+                                    echo '    <button class="btn btn-sm btn-outline-danger btn-delete" data-id="' . $interview['id'] . '" type="button"><i class="fas fa-trash-alt"></i></button>';
+                                    echo '  </td>';
+                                    echo '</tr>';
+                                }
+                            } else {
+                                echo '<tr><th colspan="9">No interviews found!</th></tr>';
                             }
-                        } else {
-                            echo '<tr><th colspan="9">No interviews found!</th></tr>';
-                        }
-                    } else {
-                        echo '<tr><th colspan="9">Unknown error occurred!</th></tr>';
-                    }
 
-                    ?>
-                    </tbody>
-                </table>
+                            ?>
+                         </tbody>
+                    </table>
+
+                    <?php echo $paginator->links($links); ?>
+                <?php } ?>
             </div>
         </div>
     </div>
@@ -122,6 +137,6 @@ include '../common/header.php';
  * is going to be common throughout our
  * entire application just like the header.
  */
-include '../common/footer.php';
+include __DIR__ . '/../common/footer.php';
 
 ?>

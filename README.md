@@ -1,6 +1,6 @@
-# Interview Portal
+# Interview Board
 
-This project was created based on a question from StackOverflow where a new developer needed some help. In the end, I decided it would be easier for me to spend a few hours writing a small project for him to show him coding styles, how to do basic queries to pull data from a database and how to display that data to the user. Since it is built to track interview information, I wanted to also integrate sessions and authentication.
+This project was created based on a question from StackOverflow where a new developer needed some help. In the end, I decided it would be easier for me to spend a few hours writing a small project for him to show him coding styles, how to do basic queries to pull data from a database and how to display that data to the user. Since it is built to track interview information, I wanted to also integrate sessions and authentication to keep everything secure. In the end, this web based application shows basic and advanced CRUD utilizing PHP, MySQL, HTML, CSS, JavaScript (jQuery), and AJAX (jQuery).
 
 ## Installation
 
@@ -113,7 +113,7 @@ These are items that I am still pondering about doing.
 ```
 1) Move actions into classes/models for better usability and code reusing
 2) Use jQuery->ajax to load table data (will be good for pagination as well since there is none right now)
-3) Implement pagination (even if we do not do number 2, this should still be done at some point)
+~~3) Implement pagination (even if we do not do number 2, this should still be done at some point)~~
 4) Create a demo application (reset data every 12 or 24 hours)
 5) Start using releases and branches appropriately
 ```
@@ -121,7 +121,12 @@ These are items that I am still pondering about doing.
 ## Recent Additions
 
 ```
-2019-08-06 - Added an installation wizard to help installing the application.
+2019-08-05 - Added an installation wizard to help installing the application.
+2019-08-06 - Added custom page titles
+2019-08-07 - Added pagination class and simply pagination to all module indexes
+2019-08-07 - Added categories for questions
+2019-08-08 - Added dynamic questions to interviews
+2019-08-08 - Started creating a small API for use with AJAX requests (requires current active session so it cannot be used externally)
 ```
 
 ## Screenshots

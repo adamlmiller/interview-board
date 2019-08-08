@@ -3,32 +3,32 @@
 /*
  * Page Title
  */
-$title = 'Questions';
+$title = 'Question Categories';
 
 /*
  * We're going to include our session
  * controller to check for an active
  * session.
  */
-include __DIR__ . '/../common/session.php';
+include __DIR__ . '/../../common/session.php';
 
 /*
  * We're going to include our header which
  * is going to be common throughout our
  * entire application.
  */
-include __DIR__ . '/../common/header.php';
+include __DIR__ . '/../../common/header.php';
 
 ?>
 
 <div class="header">
     <div class="row">
         <div class="col-md-6">
-            <h1><i class="fas fa-question"></i> Questions</h1>
+            <h1><i class="far fa-question-circle"></i> Question Categories</h1>
         </div>
         <div class="col-md-6">
             <div class="float-right">
-                <a class="btn btn-dark" href="/questions/create.php"><i class="fas fa-plus-square"></i> Create Question</a>
+                <a class="btn btn-dark" href="/questions/categories/create.php"><i class="fas fa-plus-square"></i> Create Category</a>
             </div>
         </div>
     </div>
@@ -46,16 +46,16 @@ include __DIR__ . '/../common/header.php';
                 $page = (isset($_GET['page'])) ? $_GET['page'] : 1;
                 $links = (isset($_GET['links'])) ? $_GET['links'] : 5;
 
-                $paginator = new Paginator($mysql, "SELECT q.id,q.name,q.active,q.created,q.modified,qc.name AS category_name FROM questions q, questions_categories qc WHERE qc.id = q.questions_categories_id ORDER BY q.id ASC");
+                $paginator = new Paginator($mysql, "SELECT id,name,description,active,created,modified FROM questions_categories ORDER BY id ASC");
 
                 ?>
-                <?php if ($questions = $paginator->fetch($limit, $page)) { ?>
+                <?php if ($categories = $paginator->fetch($limit, $page)) { ?>
                     <table class="table table-striped table-hover">
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col" width="25px">#</th>
                                 <th scope="col">Name</th>
-                                <th scope="col">Category</th>
+                                <th scope="col">Description</th>
                                 <th scope="col" width="75px">Active</th>
                                 <th scope="col" width="175px">Created</th>
                                 <th scope="col" width="175px">Modified</th>
@@ -63,29 +63,29 @@ include __DIR__ . '/../common/header.php';
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
+                        <?php
 
-                            if (count($questions->data) >= 1) {
-                                foreach ($questions->data AS $question) {
-                                    echo '<tr>';
-                                    echo '  <td>' . $question['id'] . '</td>';
-                                    echo '  <td>' . $question['name'] . '</td>';
-                                    echo '  <td>' . $question['category_name'] . '</td>';
-                                    echo '  <td>' . ($question['active'] ? '<span class="badge badge-pill badge-success">Active</span>':'<span class="badge badge-pill badge-danger">Disabled</span>') . '</td>';
-                                    echo '  <td>' . date("M jS, Y g:i:sA", strtotime($question['created'])) . '</td>';
-                                    echo '  <td>' . date("M jS, Y g:i:sA", strtotime($question['modified'])) . '</td>';
-                                    echo '  <td class="text-right">';
-                                    echo '    <a class="btn btn-sm btn-outline-dark" href="/questions/read.php?id=' . $question['id'] . '"><i class="fas fa-glasses"></i></a>';
-                                    echo '    <a class="btn btn-sm btn-outline-info" href="/questions/update.php?id=' . $question['id'] . '"><i class="fas fa-pencil-alt"></i></a>';
-                                    echo '    <button class="btn btn-sm btn-outline-danger btn-delete" data-id="' . $question['id'] . '" type="button"><i class="fas fa-trash-alt"></i></button>';
-                                    echo '  </td>';
-                                    echo '</tr>';
-                                }
-                            } else {
-                                echo '<tr><th colspan="6">No questions found!</th></tr>';
+                        if (count($categories->data) >= 1) {
+                            foreach ($categories->data AS $category) {
+                                echo '<tr>';
+                                echo '  <td>' . $category['id'] . '</td>';
+                                echo '  <td>' . $category['name'] . '</td>';
+                                echo '  <td>' . $category['description'] . '</td>';
+                                echo '  <td>' . ($category['active'] ? '<span class="badge badge-pill badge-success">Active</span>':'<span class="badge badge-pill badge-danger">Disabled</span>') . '</td>';
+                                echo '  <td>' . date("M jS, Y g:i:sA", strtotime($category['created'])) . '</td>';
+                                echo '  <td>' . date("M jS, Y g:i:sA", strtotime($category['modified'])) . '</td>';
+                                echo '  <td class="text-right">';
+                                echo '    <a class="btn btn-sm btn-outline-dark" href="/questions/categories/read.php?id=' . $category['id'] . '"><i class="fas fa-glasses"></i></a>';
+                                echo '    <a class="btn btn-sm btn-outline-info" href="/questions/categories/update.php?id=' . $category['id'] . '"><i class="fas fa-pencil-alt"></i></a>';
+                                echo '    <button class="btn btn-sm btn-outline-danger btn-delete" data-id="' . $category['id'] . '" type="button"><i class="fas fa-trash-alt"></i></button>';
+                                echo '  </td>';
+                                echo '</tr>';
                             }
+                        } else {
+                            echo '<tr><th colspan="7">No categories found!</th></tr>';
+                        }
 
-                            ?>
+                        ?>
                         </tbody>
                     </table>
 
@@ -106,7 +106,7 @@ include __DIR__ . '/../common/header.php';
     $(document).ready(function() {
         $('.btn-delete').on('click', function() {
             $.ajax({
-                url: '/questions/delete.php',
+                url: '/questions/categories/delete.php',
                 method: 'GET',
                 data: {
                     id : $(this).data('id')
@@ -127,6 +127,6 @@ include __DIR__ . '/../common/header.php';
  * is going to be common throughout our
  * entire application just like the header.
  */
-include __DIR__ . '/../common/footer.php';
+include __DIR__ . '/../../common/footer.php';
 
 ?>
