@@ -45,13 +45,26 @@ DROP TABLE IF EXISTS `questions`;
 
 CREATE TABLE `questions` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `questions_categories_id` int(11) NOT NULL,
   `name` varchar(128) NOT NULL DEFAULT '',
   `question` text NOT NULL,
   `active` tinyint(1) DEFAULT '1',
   `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `questions_categories`;
+
+CREATE TABLE `questions_categories` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) NOT NULL DEFAULT '',
+  `description` text NOT NULL,
+  `active` tinyint(1) DEFAULT '1',
+  `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `users`;
 
