@@ -91,6 +91,14 @@ Modified Date/Time
 Last Login Date/Time
 ```
 
+## Releases
+
+This section will be used to define releases.
+
+```
+0.0.1 - Users, Questions, Interview Tracking, and Scheduling.
+```
+
 ## Future Features
 
 Here's a list of features that I plan to add to this application. When a feature gets added, it will be removed from this list and added above.
@@ -123,6 +131,15 @@ These are items that I am still pondering about doing.
 2019-08-07 - Added categories for questions
 2019-08-08 - Added dynamic questions to interviews
 2019-08-08 - Started creating a small API for use with AJAX requests (requires current active session so it cannot be used externally)
+2019-08-14 - Added Schedules page with FullCalendar
+2019-08-17 - Changed color of top header background and fixed z-index
+2019-08-17 - Added 'active' class for main navigation
+2019-08-17 - Changed 'success' classes to 'info' to match color scheme
+2019-08-17 - Added 'cancel' buttons
+2019-08-17 - Changed text size on form info text
+2019-08-17 - Added AWS SDK for SES integration
+2019-08-17 - Added AWS Regions table to database
+2019-08-17 - Change input borders to match color scheme
 ```
 
 ## Screenshots

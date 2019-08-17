@@ -1,6 +1,6 @@
 <?php include __DIR__ . '/header.php'; ?>
 <div class="row">
-    <div class="col-md-12 col-lg-12 col-xl-12">
+    <div class="col-12">
         <div class="box">
             <div class="box-body">
                 <?php if (empty($_GET['step'])) { ?>
@@ -20,7 +20,7 @@
 
                     <br />
 
-                    <a class="btn btn-outline-primary" href="index.php?step=2">Let's do it!</a>
+                    <a class="btn btn-outline-info" href="index.php?step=2">Let's do it!</a>
                 <?php } ?>
 
                 <?php if ($_SERVER['REQUEST_METHOD'] == 'GET' && (isset($_GET['step']) && $_GET['step'] == 2)) { ?>
@@ -58,7 +58,7 @@
 
                         <br />
 
-                        <button type="submit" class="btn btn-outline-primary">Submit</button>
+                        <button type="submit" class="btn btn-outline-info">Submit</button>
                     </form>
                 <?php } ?>
 
@@ -80,7 +80,7 @@
 
                         <br />
 
-                        <a href="index.php?step=1" onclick="javascript:history.go(-1);return false;" class="btn btn-outline-primary">Try again</a>
+                        <a href="index.php?step=1" onclick="javascript:history.go(-1);return false;" class="btn btn-outline-info">Try again</a>
                     <?php } else { ?>
                         <?php
 
@@ -98,7 +98,7 @@
 
                                 if (file_put_contents($destination, $config)) {
                                     echo '<p><strong>Congratulations!</strong> You have made it through this part of the installation. We can now communicate with your database. If you are ready...</p><br />';
-                                    echo '<a class="btn btn-outline-primary" href="install.php">Run the installation</a>';
+                                    echo '<a class="btn btn-outline-info" href="install.php">Run the installation</a>';
                                 }
                             } else {
                                 echo '<div class="alert alert-danger">Unable to rename <strong>config.php.example</strong> to <strong>config.php</strong>!</div>';

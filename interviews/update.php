@@ -1,22 +1,8 @@
 <?php
 
-/*
- * Page Title
- */
 $title = 'Update :: Interviews';
 
-/*
- * We're going to include our session
- * controller to check for an active
- * session.
- */
 include __DIR__ . '/../common/session.php';
-
-/*
- * We're going to include our header which
- * is going to be common throughout our
- * entire application.
- */
 include __DIR__ . '/../common/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'update') {
@@ -33,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'update') {
                     $answer->execute();
                 }
 
-                $_SESSION['flash'] = '<div class="alert alert-success" role="alert">Interview updated successfully!</div>';
+                $_SESSION['flash'] = '<div class="alert alert-info" role="alert">Interview updated successfully!</div>';
             } else {
                 $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save interview!</div>';
             }
@@ -67,10 +53,10 @@ if (!($query = $mysql->prepare("SELECT * FROM interviews WHERE id = ?"))) {
 
 <div class="header">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-6">
             <h1><i class="fas fa-address-book"></i> Interviews :: Update :: <?php echo $interview['first_name'] . ' ' . $interview['last_name']; ?></h1>
         </div>
-        <div class="col-md-6">
+        <div class="col-6">
             <div class="float-right"></div>
         </div>
     </div>
@@ -80,7 +66,7 @@ if (!($query = $mysql->prepare("SELECT * FROM interviews WHERE id = ?"))) {
 
 <?php if (isset($interview)) { ?>
 <div class="row">
-    <div class="col-md-12 col-lg-12 col-xl-12">
+    <div class="col-12">
         <div class="box">
             <div class="box-body">
                 <form action="" method="post">
@@ -118,7 +104,7 @@ if (!($query = $mysql->prepare("SELECT * FROM interviews WHERE id = ?"))) {
                             <div class="form-group">
                                 <label for="phone">Phone Number</label>
                                 <input name="phone" type="text" class="form-control" id="phone" aria-describedby="phoneHelp" placeholder="(000) 000-0000" value="<?php echo $interview['phone']; ?>">
-                                <small id="phoneHelp" class="form-text text-muted">Enter the interviewees phone number in the proper format. <span class="text-info">Formatting happens automatically!</span></small>
+                                <small id="phoneHelp" class="form-text text-muted">Enter the interviewees phone number in the proper format. <span class="text-info text-small">Formatting happens automatically.</span></small>
                             </div>
                         </div>
                     </div>
@@ -127,7 +113,7 @@ if (!($query = $mysql->prepare("SELECT * FROM interviews WHERE id = ?"))) {
                             <div class="form-group">
                                 <label for="date">Interview Date</label>
                                 <input name="date" type="text" class="form-control" id="date" aria-describedby="dateHelp" placeholder="yyyy-mm-dd" value="<?php echo $interview['date']; ?>">
-                                <small id="dateHelp" class="form-text text-muted">Enter the interview date in the proper format. <span class="text-info">Formatting happens automatically!</span></small>
+                                <small id="dateHelp" class="form-text text-muted">Enter the interview date in the proper format. <span class="text-info text-small">Formatting happens automatically.</span></small>
                             </div>
                         </div>
                         <div class="col-6">
@@ -163,7 +149,7 @@ if (!($query = $mysql->prepare("SELECT * FROM interviews WHERE id = ?"))) {
                         <div class="col-2"><h5>Questions</h5></div>
                         <div class="col-3"><select class="form-control selectpicker" id="categories"></select></div>
                         <div class="col-5"><select class="form-control selectpicker" id="questions"></select></div>
-                        <div class="col-2"><button type="button" class="btn btn-primary btn-block btn-add-question"><i class="fas fa-plus"></i> Add Question</button></div>
+                        <div class="col-2"><button type="button" class="btn btn-info btn-block btn-add-question"><i class="fas fa-plus"></i> Add Question</button></div>
                     </div>
 
                     <hr />
@@ -207,7 +193,10 @@ if (!($query = $mysql->prepare("SELECT * FROM interviews WHERE id = ?"))) {
                         </select>
                     </div>
 
-                    <button type="submit" class="btn btn-block btn-primary"><i class="fas fa-save"></i> Save Interview</button>
+                    <div class="row">
+                        <div class="col-6"><a class="btn btn-block btn-outline-dark" href="/interviews/"><i class="fas fa-ban"></i> Cancel</a></div>
+                        <div class="col-6"><button type="submit" class="btn btn-block btn-info"><i class="fas fa-save"></i> Save Interview</button></div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -276,13 +265,4 @@ if (!($query = $mysql->prepare("SELECT * FROM interviews WHERE id = ?"))) {
 </script>
 <?php } ?>
 
-<?php
-
-/*
- * Here, we're including our footer which
- * is going to be common throughout our
- * entire application just like the header.
- */
-include __DIR__ . '/../common/footer.php';
-
-?>
+<?php include __DIR__ . '/../common/footer.php'; ?>

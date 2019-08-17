@@ -1,29 +1,15 @@
 <?php
 
-/*
- * Page Title
- */
 $title = 'Update :: Questions';
 
-/*
- * We're going to include our session
- * controller to check for an active
- * session.
- */
 include __DIR__ . '/../common/session.php';
-
-/*
- * We're going to include our header which
- * is going to be common throughout our
- * entire application.
- */
 include __DIR__ . '/../common/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'update') {
     if ($query = $mysql->prepare("UPDATE `questions` SET `name` = ?, `questions_categories_id` = ?, `question` = ?, `active` = ? WHERE `id` = ?")) {
         if ($query->bind_param("sisii", $_POST['name'], $_POST['questions_categories_id'], $_POST['question'], $_POST['active'], $_POST['id'])) {
             if ($query->execute()) {
-                $_SESSION['flash'] = '<div class="alert alert-success" role="alert">Question updated successfully!</div>';
+                $_SESSION['flash'] = '<div class="alert alert-info" role="alert">Question updated successfully!</div>';
             } else {
                 $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save question!</div>';
             }
@@ -57,10 +43,10 @@ if (!($query = $mysql->prepare("SELECT * FROM questions WHERE id = ?"))) {
 
 <div class="header">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-6">
             <h1><i class="fas fa-question"></i> Questions :: Update</h1>
         </div>
-        <div class="col-md-6">
+        <div class="col-6">
             <div class="float-right"></div>
         </div>
     </div>
@@ -70,7 +56,7 @@ if (!($query = $mysql->prepare("SELECT * FROM questions WHERE id = ?"))) {
 
 <?php if (isset($question)) { ?>
     <div class="row">
-        <div class="col-md-12 col-lg-12 col-xl-12">
+        <div class="col-12">
             <div class="box">
                 <div class="box-body">
                     <form action="" method="post">
@@ -115,7 +101,10 @@ if (!($query = $mysql->prepare("SELECT * FROM questions WHERE id = ?"))) {
                             </select>
                         </div>
 
-                        <button type="submit" class="btn btn-block btn-primary"><i class="fas fa-save"></i> Save Question</button>
+                        <div class="row">
+                            <div class="col-6"><a class="btn btn-block btn-outline-dark" href="/questions/"><i class="fas fa-ban"></i> Cancel</a></div>
+                            <div class="col-6"><button type="submit" class="btn btn-block btn-info"><i class="fas fa-save"></i> Save Question</button></div>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -123,13 +112,4 @@ if (!($query = $mysql->prepare("SELECT * FROM questions WHERE id = ?"))) {
     </div>
 <?php } ?>
 
-<?php
-
-/*
- * Here, we're including our footer which
- * is going to be common throughout our
- * entire application just like the header.
- */
-include __DIR__ . '/../common/footer.php';
-
-?>
+<?php include __DIR__ . '/../common/footer.php'; ?>

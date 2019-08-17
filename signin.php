@@ -4,19 +4,11 @@ if (isset($_SESSION['allowed']) && $_SESSION['allowed'] === true) {
     header('location: index.php');
 }
 
-/*
- * Page Title
- */
 $title = 'Sign In';
 
-/*
- * We're going to include our header which
- * is going to be common throughout our
- * entire application.
- */
 include __DIR__ . '/common/header_signin.php';
 
-$flash = '';
+$flash = null;
 $emptyEmail = false;
 $emptyPassword = false;
 
@@ -93,16 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <label for="password">Password</label>
         <input name="password" type="password" id="password" class="form-control <?php echo ($emptyPassword === true ? 'form-error' : ''); ?>" placeholder="Password">
     </div>
-    <button class="btn btn-primary btn-block" type="submit">Sign In</button>
+    <button class="btn btn-info btn-block" type="submit">Sign In</button>
 </form>
 
-<?php
-
-/*
- * Here, we're including our footer which
- * is going to be common throughout our
- * entire application just like the header.
- */
-include __DIR__ . '/common/footer.php';
-
-?>
+<?php include __DIR__ . '/common/footer.php'; ?>

@@ -1,22 +1,8 @@
 <?php
 
-/*
- * Page Title
- */
 $title = 'My Account';
 
-/*
- * We're going to include our session
- * controller to check for an active
- * session.
- */
 include __DIR__ . '/../common/session.php';
-
-/*
- * We're going to include our header which
- * is going to be common throughout our
- * entire application.
- */
 include __DIR__ . '/../common/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'update') {
@@ -38,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'update') {
                 } elseif ($query->affected_rows === 0) {
                     $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Failed to update profile! Were any changes made?</div>';
                 } else {
-                    $_SESSION['flash'] = '<div class="alert alert-success" role="alert">Your profile has been updated successfully!</div>';
+                    $_SESSION['flash'] = '<div class="alert alert-info" role="alert">Your profile has been updated successfully!</div>';
                 }
             } else {
                 $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save profile!</div>';
@@ -73,10 +59,10 @@ if (!($query = $mysql->prepare("SELECT * FROM users WHERE id = ?"))) {
 
 <div class="header">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-6">
             <h1><i class="fa fa-user"></i> My Profile</h1>
         </div>
-        <div class="col-md-6">
+        <div class="col-6">
             <div class="float-right"></div>
         </div>
     </div>
@@ -86,7 +72,7 @@ if (!($query = $mysql->prepare("SELECT * FROM users WHERE id = ?"))) {
 
 <?php if (isset($user)) { ?>
     <div class="row">
-        <div class="col-md-12 col-lg-12 col-xl-12">
+        <div class="col-12">
             <div class="box">
                 <div class="box-body">
                     <form action="" method="post">
@@ -105,7 +91,7 @@ if (!($query = $mysql->prepare("SELECT * FROM users WHERE id = ?"))) {
                         <div class="form-group">
                             <label for="phone">Phone Number</label>
                             <input name="phone" type="text" class="form-control" id="phone" aria-describedby="phoneHelp" placeholder="(000) 000-0000" value="<?php echo $user['phone']; ?>">
-                            <small id="phoneHelp" class="form-text text-muted">Enter the interviewees phone number in the proper format. <span class="text-info">Formatting happens automatically!</span></small>
+                            <small id="phoneHelp" class="form-text text-muted">Enter the interviewees phone number in the proper format. <span class="text-info text-small">Formatting happens automatically.</span></small>
                         </div>
                         <div class="form-group">
                             <label for="email">E-Mail Address</label>
@@ -115,10 +101,10 @@ if (!($query = $mysql->prepare("SELECT * FROM users WHERE id = ?"))) {
                         <div class="form-group">
                             <label for="password">Password</label>
                             <input name="password" type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="Password">
-                            <small id="passwordHelp" class="form-text text-muted">Enter a password for the user. <span class="text-danger">LEAVE BLANK TO NOT CHANGE!</span></small>
+                            <small id="passwordHelp" class="form-text text-muted">Enter a password for the user. <span class="text-danger text-small">Leave blank to not change.</span></small>
                         </div>
 
-                        <button type="submit" class="btn btn-block btn-primary"><i class="fas fa-save"></i> Save Profile</button>
+                        <button type="submit" class="btn btn-block btn-info"><i class="fas fa-save"></i> Save Profile</button>
                     </form>
                 </div>
             </div>
@@ -132,13 +118,4 @@ if (!($query = $mysql->prepare("SELECT * FROM users WHERE id = ?"))) {
     </script>
 <?php } ?>
 
-<?php
-
-/*
- * Here, we're including our footer which
- * is going to be common throughout our
- * entire application just like the header.
- */
-include __DIR__ . '/../common/footer.php';
-
-?>
+<?php include __DIR__ . '/../common/footer.php'; ?>

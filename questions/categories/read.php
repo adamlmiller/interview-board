@@ -1,22 +1,8 @@
 <?php
 
-/*
- * Page Title
- */
 $title = 'Read :: Question Category';
 
-/*
- * We're going to include our session
- * controller to check for an active
- * session.
- */
 include __DIR__ . '/../../common/session.php';
-
-/*
- * We're going to include our header which
- * is going to be common throughout our
- * entire application.
- */
 include __DIR__ . '/../../common/header.php';
 
 if (!($query = $mysql->prepare("SELECT * FROM questions_categories WHERE id = ?"))) {
@@ -41,10 +27,10 @@ if (!($query = $mysql->prepare("SELECT * FROM questions_categories WHERE id = ?"
 
 <div class="header">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-6">
             <h1><i class="far fa-question-circle"></i> Question Category :: Read</h1>
         </div>
-        <div class="col-md-6">
+        <div class="col-6">
             <div class="float-right"></div>
         </div>
     </div>
@@ -52,7 +38,7 @@ if (!($query = $mysql->prepare("SELECT * FROM questions_categories WHERE id = ?"
 
 <?php if (!empty($category)) { ?>
     <div class="row">
-        <div class="col-md-12 col-lg-12 col-xl-12">
+        <div class="col-12">
             <div class="box">
                 <div class="box-body">
                     <strong><?php echo $category['name']; ?></strong>
@@ -67,13 +53,4 @@ if (!($query = $mysql->prepare("SELECT * FROM questions_categories WHERE id = ?"
     </div>
 <?php } ?>
 
-<?php
-
-/*
- * Here, we're including our footer which
- * is going to be common throughout our
- * entire application just like the header.
- */
-include __DIR__ . '/../../common/footer.php';
-
-?>
+<?php include __DIR__ . '/../../common/footer.php'; ?>

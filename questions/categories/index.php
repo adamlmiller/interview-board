@@ -1,32 +1,18 @@
 <?php
 
-/*
- * Page Title
- */
 $title = 'Question Categories';
 
-/*
- * We're going to include our session
- * controller to check for an active
- * session.
- */
 include __DIR__ . '/../../common/session.php';
-
-/*
- * We're going to include our header which
- * is going to be common throughout our
- * entire application.
- */
 include __DIR__ . '/../../common/header.php';
 
 ?>
 
 <div class="header">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-6">
             <h1><i class="far fa-question-circle"></i> Question Categories</h1>
         </div>
-        <div class="col-md-6">
+        <div class="col-6">
             <div class="float-right">
                 <a class="btn btn-dark" href="/questions/categories/create.php"><i class="fas fa-plus-square"></i> Create Category</a>
             </div>
@@ -37,7 +23,7 @@ include __DIR__ . '/../../common/header.php';
 <?php if (!empty($_SESSION['flash'])) echo $_SESSION['flash']; unset($_SESSION['flash']); ?>
 
 <div class="row">
-    <div class="col-md-12 col-lg-12 col-xl-12">
+    <div class="col-12">
         <div class="box">
             <div class="box-body">
                 <?php
@@ -71,7 +57,7 @@ include __DIR__ . '/../../common/header.php';
                                 echo '  <td>' . $category['id'] . '</td>';
                                 echo '  <td>' . $category['name'] . '</td>';
                                 echo '  <td>' . $category['description'] . '</td>';
-                                echo '  <td>' . ($category['active'] ? '<span class="badge badge-pill badge-success">Active</span>':'<span class="badge badge-pill badge-danger">Disabled</span>') . '</td>';
+                                echo '  <td>' . ($category['active'] ? '<span class="badge badge-pill badge-info">Active</span>':'<span class="badge badge-pill badge-danger">Disabled</span>') . '</td>';
                                 echo '  <td>' . date("M jS, Y g:i:sA", strtotime($category['created'])) . '</td>';
                                 echo '  <td>' . date("M jS, Y g:i:sA", strtotime($category['modified'])) . '</td>';
                                 echo '  <td class="text-right">';
@@ -120,13 +106,4 @@ include __DIR__ . '/../../common/header.php';
     });
 </script>
 
-<?php
-
-/*
- * Here, we're including our footer which
- * is going to be common throughout our
- * entire application just like the header.
- */
-include __DIR__ . '/../../common/footer.php';
-
-?>
+<?php include __DIR__ . '/../../common/footer.php'; ?>

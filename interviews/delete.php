@@ -1,17 +1,6 @@
 <?php
 
-/*
- * We're going to include our session
- * controller to check for an active
- * session.
- */
 include __DIR__ . '/../common/session.php';
-
-/*
- * We're going to include our database
- * directly because we do not need the
- * header here.
- */
 include __DIR__ . '/../common/database.php';
 
 if (($_SERVER['REQUEST_METHOD'] == 'POST') && ($_POST['action'] == 'delete') && (isset($_POST['id']))) {
@@ -28,11 +17,11 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && ($_POST['action'] == 'delete') && 
             if ($result->num_rows === 0) {
                 $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Unable to find interview as referenced!</div>';
             } else {
-                $query = $mysql->prepare("DELETE FROM `interviews` WHERE `id` = ?");
+                $query = $mysql->prepare("DELETE FROM `interviews_answers` WHERE `interview_id` = ?");
                 $query->bind_param("i", $_POST['id']);
                 $query->execute();
 
-                $query = $mysql->prepare("DELETE FROM `interviews_answers` WHERE `interview_id` = ?");
+                $query = $mysql->prepare("DELETE FROM `interviews` WHERE `id` = ?");
                 $query->bind_param("i", $_POST['id']);
                 $query->execute();
 
@@ -41,7 +30,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && ($_POST['action'] == 'delete') && 
                 } elseif ($query->affected_rows === 0) {
                     $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Failed to delete interview!</div>';
                 } else {
-                    $_SESSION['flash'] = '<div class="alert alert-success" role="alert">Interview deleted successfully!</div>';
+                    $_SESSION['flash'] = '<div class="alert alert-info" role="alert">Interview deleted successfully!</div>';
                 }
             }
         }

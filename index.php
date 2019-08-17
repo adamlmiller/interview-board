@@ -1,37 +1,12 @@
 <?php
 
-/*
- * Page Title
- */
 $title = 'Home';
 
-/*
- * We're going to include our session
- * controller to check for an active
- * session.
- */
 include __DIR__ . '/common/session.php';
-
-/*
- * We're going to include our header which
- * is going to be common throughout our
- * entire application.
- */
 include __DIR__ . '/common/header.php';
 
-/*
- * Get Total Interviews
- */
 $interviews = $mysql->query("SELECT COUNT(*) AS total FROM interviews");
-
-/*
- * Get Total Questions
- */
 $questions = $mysql->query("SELECT COUNT(*) AS total FROM questions");
-
-/*
- * Get Total Users
- */
 $users = $mysql->query("SELECT COUNT(*) AS total FROM users");
 
 ?>
@@ -65,7 +40,7 @@ $users = $mysql->query("SELECT COUNT(*) AS total FROM users");
 </div>
 
 <div class="row">
-    <div class="col-md-12 col-lg-12 col-xl-12">
+    <div class="col-12">
         <div class="box">
             <div class="box-header"><h6>Most Recent Interviews (5)</h6></div>
             <div class="box-body">
@@ -115,13 +90,4 @@ $users = $mysql->query("SELECT COUNT(*) AS total FROM users");
     </div>
 </div>
 
-<?php
-
-/*
- * Here, we're including our footer which
- * is going to be common throughout our
- * entire application just like the header.
- */
-include __DIR__ . '/common/footer.php';
-
-?>
+<?php include __DIR__ . '/common/footer.php'; ?>

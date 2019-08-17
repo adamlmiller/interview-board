@@ -1,17 +1,6 @@
 <?php
 
-/*
- * We're going to include our session
- * controller to check for an active
- * session.
- */
 include __DIR__ . '/../common/session.php';
-
-/*
- * We're going to include our database
- * directly because we do not need the
- * header here.
- */
 include __DIR__ . '/../common/database.php';
 
 if (($_SERVER['REQUEST_METHOD'] == 'POST') && ($_POST['action'] == 'delete') && (isset($_POST['id']))) {
@@ -43,7 +32,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && ($_POST['action'] == 'delete') && 
                     } elseif ($query->affected_rows === 0) {
                         $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Failed to delete user!</div>';
                     } else {
-                        $_SESSION['flash'] = '<div class="alert alert-success" role="alert">User deleted successfully!</div>';
+                        $_SESSION['flash'] = '<div class="alert alert-info" role="alert">User deleted successfully!</div>';
                     }
                 }
             }

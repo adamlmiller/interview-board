@@ -1,32 +1,18 @@
 <?php
 
-/*
- * Page Title
- */
 $title = 'Interviews';
 
-/*
- * We're going to include our session
- * controller to check for an active
- * session.
- */
 include __DIR__ . '/../common/session.php';
-
-/*
- * We're going to include our header which
- * is going to be common throughout our
- * entire application.
- */
 include __DIR__ . '/../common/header.php';
 
 ?>
 
 <div class="header">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-6">
             <h1><i class="fas fa-address-book"></i> Interviews</h1>
         </div>
-        <div class="col-md-6">
+        <div class="col-6">
             <div class="float-right">
                 <a class="btn btn-dark" href="/interviews/create.php"><i class="fas fa-plus-square"></i> Create Interview</a>
             </div>
@@ -37,7 +23,7 @@ include __DIR__ . '/../common/header.php';
 <?php if (!empty($_SESSION['flash'])) echo $_SESSION['flash']; unset($_SESSION['flash']); ?>
 
 <div class="row">
-    <div class="col-md-12 col-lg-12 col-xl-12">
+    <div class="col-12">
         <div class="box">
             <div class="box-body">
                 <?php
@@ -76,8 +62,8 @@ include __DIR__ . '/../common/header.php';
                                     echo '  <td>';
 
                                     if ($interview['hire'] == 0) echo '<span class="badge badge-pill badge-danger">No</span>';
-                                    if ($interview['hire'] == 1) echo '<span class="badge badge-pill badge-success">Yes</span>';
-                                    if ($interview['hire'] == 2) echo '<span class="badge badge-pill badge-info">Unsure</span>';
+                                    if ($interview['hire'] == 1) echo '<span class="badge badge-pill badge-info">Yes</span>';
+                                    if ($interview['hire'] == 2) echo '<span class="badge badge-pill badge-warning">Unsure</span>';
 
                                     echo '  </td>';
                                     echo '  <td>' . $interview['phone'] . '</td>';
@@ -130,13 +116,4 @@ include __DIR__ . '/../common/header.php';
     });
 </script>
 
-<?php
-
-/*
- * Here, we're including our footer which
- * is going to be common throughout our
- * entire application just like the header.
- */
-include __DIR__ . '/../common/footer.php';
-
-?>
+<?php include __DIR__ . '/../common/footer.php'; ?>

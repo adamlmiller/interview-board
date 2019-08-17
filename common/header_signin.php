@@ -1,13 +1,5 @@
 <?php
 
-/*
- * This is going to ensure that we have the database
- * connection established on each page where the
- * header is included. Should you need it on a page
- * where the header is not included, you can
- * reference the database.php file directly
- * from that file.
- */
 include __DIR__ . '/config.php';
 include __DIR__ . '/database.php';
 
