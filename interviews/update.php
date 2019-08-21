@@ -69,7 +69,7 @@ if (!($query = $mysql->prepare("SELECT * FROM interviews WHERE id = ?"))) {
     <div class="col-12">
         <div class="box">
             <div class="box-body">
-                <form action="" method="post">
+                <form action="" id="frmUpdate" method="post">
                     <input name="action" value="update" type="hidden">
 
                     <h5>General Information</h5>
@@ -260,6 +260,52 @@ if (!($query = $mysql->prepare("SELECT * FROM interviews WHERE id = ?"))) {
                     $('#interview_questions').append('<div class="form-group"><label for="question' + data['id'] + '">' + data['question'] + '</label><textarea rows="5" name="answer[' + data['id'] + ']" class="form-control" id="question' + data['id'] + '"></textarea></div>');
                 }
             });
+        });
+
+        $("#frmUpdate").validate({
+            rules: {
+                first_name: {
+                    required: true,
+                    normalizer: function(value) {
+                        return $.trim(value);
+                    },
+                    minlength: 2,
+                    maxlength: 32
+                },
+                last_name: {
+                    required: true,
+                    normalizer: function(value) {
+                        return $.trim(value);
+                    },
+                    minlength: 2,
+                    maxlength: 32
+                },
+                email: {
+                    required: true,
+                    normalizer: function(value) {
+                        return $.trim(value);
+                    },
+                    email: true
+                },
+                phone: {
+                    required: true
+                },
+                date: {
+                    required: true,
+                    normalizer: function(value) {
+                        return $.trim(value);
+                    },
+                    dateISO: true
+                },
+                method: {
+                    required: true,
+                    normalizer: function(value) {
+                        return $.trim(value);
+                    },
+                    minlength: 2,
+                    maxlength: 64
+                }
+            }
         });
     });
 </script>

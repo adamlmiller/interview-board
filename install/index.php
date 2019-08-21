@@ -26,7 +26,7 @@
                 <?php if ($_SERVER['REQUEST_METHOD'] == 'GET' && (isset($_GET['step']) && $_GET['step'] == 2)) { ?>
                     <p>Please enter your database connection details below. If you are not sure about these, contact your hosting provider.</p>
 
-                    <form method="post" action="index.php?step=3">
+                    <form action="index.php?step=3" id="frmDatabase" method="post">
                         <div class="form-group row">
                             <label for="database" class="col-3 col-form-label"><strong>Database Name</strong></label>
                             <div class="col-4">
@@ -114,4 +114,38 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#phone').mask('(000) 000-0000', {placeholder: "(000) 000-0000"});
+        $("#frmDatabase").validate({
+            rules: {
+                database: {
+                    required: true,
+                    normalizer: function(value) {
+                        return $.trim(value);
+                    }
+                },
+                username: {
+                    required: true,
+                    normalizer: function(value) {
+                        return $.trim(value);
+                    }
+                },
+                password: {
+                    required: true,
+                    normalizer: function(value) {
+                        return $.trim(value);
+                    }
+                },
+                hostname: {
+                    required: true,
+                    normalizer: function(value) {
+                        return $.trim(value);
+                    }
+                }
+            }
+        });
+    });
+</script>
 <?php include __DIR__ . '/footer.php'; ?>

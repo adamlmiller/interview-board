@@ -35,6 +35,8 @@ input[type="color"]:focus,
     outline:0 none;
 }
 
+label.error { color:#dc3545 !important; }
+
 .text-small { font-size:80% !important; }
 
 .sidebar { background:#343a40; height:100%; left:0; position:fixed; top:0; width:5rem; z-index:1; }
@@ -94,3 +96,7 @@ input[type="color"]:focus,
 .calendar .fc-body .fc-today { background:#f9f9f9; }
 
 .dropdown-item.active, .dropdown-item:active { background-color:#17a2b8; color:#fff; text-decoration:none; }
+
+.tab-content { padding-top:1em; }
+
+.nav a:link.nav-item, .nav a:active.nav-item, .nav a:visited.nav-item { color:#17a2b8; }

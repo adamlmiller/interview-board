@@ -69,7 +69,7 @@ if (!($query = $mysql->prepare("SELECT * FROM users WHERE id = ?"))) {
     <div class="col-12">
         <div class="box">
             <div class="box-body">
-                <form action="" method="post">
+                <form action="" id="frmUpdate" method="post">
                     <input name="action" value="update" type="hidden">
 
                     <div class="form-group">
@@ -104,7 +104,6 @@ if (!($query = $mysql->prepare("SELECT * FROM users WHERE id = ?"))) {
                             <option value="1"<?php echo ($user['active'] == 1 ? ' selected' : ''); ?>>Yes</option>
                         </select>
                     </div>
-
                     <div class="row">
                         <div class="col-6"><a class="btn btn-block btn-outline-dark" href="/users/"><i class="fas fa-ban"></i> Cancel</a></div>
                         <div class="col-6"><button type="submit" class="btn btn-block btn-info"><i class="fas fa-save"></i> Save User</button></div>
@@ -118,6 +117,39 @@ if (!($query = $mysql->prepare("SELECT * FROM users WHERE id = ?"))) {
 <script type="text/javascript">
     $(document).ready(function() {
         $('#phone').mask('(000) 000-0000', {placeholder: "(000) 000-0000"});
+        $("#frmUpdate").validate({
+            rules: {
+                first_name: {
+                    required: true,
+                    normalizer: function(value) {
+                        return $.trim(value);
+                    },
+                    minlength: 2,
+                    maxlength: 32
+                },
+                last_name: {
+                    required: true,
+                    normalizer: function(value) {
+                        return $.trim(value);
+                    },
+                    minlength: 2,
+                    maxlength: 32
+                },
+                phone: {
+                    required: true,
+                    normalizer: function(value) {
+                        return $.trim(value);
+                    }
+                },
+                email: {
+                    required: true,
+                    normalizer: function(value) {
+                        return $.trim(value);
+                    },
+                    email: true
+                }
+            }
+        });
     });
 </script>
 <?php } ?>

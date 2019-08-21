@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
     <div class="col-12">
         <div class="box">
             <div class="box-body">
-                <form action="" method="post">
+                <form action="" id="frmCreate" method="post">
                     <input name="action" value="create" type="hidden">
 
                     <div class="form-group">
@@ -73,5 +73,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#frmCreate").validate({
+            rules: {
+                name: {
+                    required: true,
+                    normalizer: function(value) {
+                        return $.trim(value);
+                    },
+                    minlength: 2,
+                    maxlength: 128
+                },
+                description: {
+                    required: true,
+                    normalizer: function(value) {
+                        return $.trim(value);
+                    },
+                    minlength: 2
+                }
+            }
+        });
+    });
+</script>
 
 <?php include __DIR__ . '/../../common/footer.php'; ?>

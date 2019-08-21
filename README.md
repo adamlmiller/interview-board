@@ -140,6 +140,11 @@ These are items that I am still pondering about doing.
 2019-08-17 - Added AWS SDK for SES integration
 2019-08-17 - Added AWS Regions table to database
 2019-08-17 - Change input borders to match color scheme
+2019-08-19 - Changed auth screens by adding a box around the forms
+2019-08-19 - Added form validation via jQuery Validate
+2019-08-19 - Added Sign Up form (which can be turned off)
+2019-08-20 - Added reset.php for resetting password
+2019-08-20 - Added tabs to settings to help organize it
 ```
 
 ## Screenshots

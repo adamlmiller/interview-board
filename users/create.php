@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
     <div class="col-12">
         <div class="box">
             <div class="box-body">
-                <form action="" method="post">
+                <form action="" id="frmCreate" method="post">
                     <input name="action" value="create" type="hidden">
 
                     <div class="form-group">
@@ -74,13 +74,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
                         <small id="passwordHelp" class="form-text text-muted">Enter a password for the user.</small>
                     </div>
                     <div class="form-group">
+                        <label for="confirm">Confirm</label>
+                        <input name="confirm" type="password" class="form-control" id="confirm" aria-describedby="confirmHelp" placeholder="Confirm Password">
+                        <small id="confirmHelp" class="form-text text-muted">Confirm the password previously entered.</small>
+                    </div>
+                    <div class="form-group">
                         <label for="active">Active</label>
                         <select class="form-control selectpicker" name="active">
                             <option value="0">No</option>
                             <option value="1" selected>Yes</option>
                         </select>
                     </div>
-
                     <div class="row">
                         <div class="col-6"><a class="btn btn-block btn-outline-dark" href="/users/"><i class="fas fa-ban"></i> Cancel</a></div>
                         <div class="col-6"><button type="submit" class="btn btn-block btn-info"><i class="fas fa-save"></i> Save User</button></div>
@@ -94,6 +98,49 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
 <script type="text/javascript">
     $(document).ready(function() {
         $('#phone').mask('(000) 000-0000', {placeholder: "(000) 000-0000"});
+        $("#frmCreate").validate({
+            rules: {
+                first_name: {
+                    required: true,
+                    normalizer: function(value) {
+                        return $.trim(value);
+                    },
+                    minlength: 2,
+                    maxlength: 32
+                },
+                last_name: {
+                    required: true,
+                    normalizer: function(value) {
+                        return $.trim(value);
+                    },
+                    minlength: 2,
+                    maxlength: 32
+                },
+                phone: {
+                    required: true,
+                    normalizer: function(value) {
+                        return $.trim(value);
+                    }
+                },
+                email: {
+                    required: true,
+                    normalizer: function(value) {
+                        return $.trim(value);
+                    },
+                    email: true
+                },
+                password: {
+                    required: true,
+                    normalizer: function(value) {
+                        return $.trim(value);
+                    },
+                    minlength: 8
+                },
+                confirm: {
+                    equalTo: '#password'
+                }
+            }
+        });
     });
 </script>
 

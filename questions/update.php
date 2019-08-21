@@ -59,7 +59,7 @@ if (!($query = $mysql->prepare("SELECT * FROM questions WHERE id = ?"))) {
         <div class="col-12">
             <div class="box">
                 <div class="box-body">
-                    <form action="" method="post">
+                    <form action="" id="frmUpdate" method="post">
                         <input name="action" value="update" type="hidden">
                         <input name="id" value="<?php echo $question['id']; ?>" type="hidden">
 
@@ -111,5 +111,29 @@ if (!($query = $mysql->prepare("SELECT * FROM questions WHERE id = ?"))) {
         </div>
     </div>
 <?php } ?>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#frmUpdate").validate({
+            rules: {
+                name: {
+                    required: true,
+                    normalizer: function(value) {
+                        return $.trim(value);
+                    },
+                    minlength: 2,
+                    maxlength: 128
+                },
+                question: {
+                    required: true,
+                    normalizer: function(value) {
+                        return $.trim(value);
+                    },
+                    minlength: 2
+                }
+            }
+        });
+    });
+</script>
 
 <?php include __DIR__ . '/../common/footer.php'; ?>

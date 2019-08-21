@@ -20,21 +20,21 @@ $users = $mysql->query("SELECT COUNT(*) AS total FROM users");
         <div class="tile">
             <div class="tile-heading">Interviews</div>
             <div class="tile-body"><i class="fas fa-address-book"></i><h2 class="float-right"><?php echo $interviews->fetch_assoc()['total']; ?></h2></div>
-            <div class="tile-footer"><a href="/interviews/">Go to Interviews <i class="fa fa-fw fa-angle-right"></i></a></div>
+            <div class="tile-footer"><a href="/interviews/">Go to Interviews <i class="fa fa-angle-right"></i></a></div>
         </div>
     </div>
     <div class="col-4">
         <div class="tile">
             <div class="tile-heading">Questions</div>
             <div class="tile-body"><i class="fas fa-question"></i><h2 class="float-right"><?php echo $questions->fetch_assoc()['total']; ?></h2></div>
-            <div class="tile-footer"><a href="/questions/">Go to Questions <i class="fa fa-fw fa-angle-right"></i></a></div>
+            <div class="tile-footer"><a href="/questions/">Go to Questions <i class="fa fa-angle-right"></i></a></div>
         </div>
     </div>
     <div class="col-4">
         <div class="tile">
             <div class="tile-heading">Users</div>
             <div class="tile-body"><i class="fa fa-users"></i><h2 class="float-right"><?php echo $users->fetch_assoc()['total']; ?></h2></div>
-            <div class="tile-footer"><a href="/users/">Go to Users <i class="fa fa-fw fa-angle-right"></i></a></div>
+            <div class="tile-footer"><a href="/users/">Go to Users <i class="fa fa-angle-right"></i></a></div>
         </div>
     </div>
 </div>

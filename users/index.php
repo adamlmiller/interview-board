@@ -58,7 +58,7 @@ include __DIR__ . '/../common/header.php';
                                     echo '  <td>' . $user['id'] . '</td>';
                                     echo '  <td>' . $user['first_name'] . ' ' . $user['last_name'] . '</td>';
                                     echo '  <td>' . $user['email'] . '</td>';
-                                    echo '  <td>' . ($user['active'] ? '<span class="badge badge-pill badge-success">Active</span>' : '<span class="badge badge-pill badge-danger">Disabled</span>') . '</td>';
+                                    echo '  <td>' . ($user['active'] ? '<span class="badge badge-pill badge-info">Active</span>' : '<span class="badge badge-pill badge-danger">Disabled</span>') . '</td>';
                                     echo '  <td>' . date("M jS, Y g:i:sA", strtotime($user['created'])) . '</td>';
                                     echo '  <td>' . date("M jS, Y g:i:sA", strtotime($user['modified'])) . '</td>';
                                     echo '  <td>' . ($user['lastlogin'] ? date("M jS, Y g:i:sA", strtotime($user['lastlogin'])) : '<span class="badge badge-pill badge-danger">Never</span>') . '</td>';

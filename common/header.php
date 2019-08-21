@@ -2,6 +2,8 @@
 
 include __DIR__ . '/config.php';
 include __DIR__ . '/database.php';
+include __DIR__ . '/system.php';
+include __DIR__ . '/../includes/class.utility.php';
 include __DIR__ . '/../includes/class.paginator.php';
 include __DIR__ . '/../includes/class.email.php';
 
@@ -26,6 +28,7 @@ if (!empty(explode('/', $_SERVER['REQUEST_URI'])[2]) && (explode('/', $_SERVER['
     <link href="/stylesheet/fullcalendar.min.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="/javascript/jquery.min.js"></script>
     <script type="text/javascript" src="/javascript/jquery.mask.min.js"></script>
+    <script type="text/javascript" src="/javascript/jquery.validate.min.js"></script>
     <script type="text/javascript" src="/javascript/fullcalendar.min.js"></script>
     <script type="text/javascript" src="/javascript/popper.min.js"></script>
     <script type="text/javascript" src="/javascript/bootstrap.min.js"></script>
@@ -36,7 +39,7 @@ if (!empty(explode('/', $_SERVER['REQUEST_URI'])[2]) && (explode('/', $_SERVER['
 <div class="top">
     <div class="navbar-header"></div>
     <ul class="nav float-right">
-        <li><a href="/users/account.php"><i class="fa fa-fw fa-user"></i> My Account</a></li>
+        <li><a href="/users/account.php"><i class="fa fa-user"></i> My Account</a></li>
     </ul>
 </div>
 <div class="sidebar">
