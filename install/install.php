@@ -148,8 +148,12 @@
                     $mysql->query("INSERT INTO `options` SET `name` = 'aws_key', `type` = 'system';");
                     $mysql->query("INSERT INTO `options` SET `name` = 'aws_secret', `type` = 'system';");
                     $mysql->query("INSERT INTO `options` SET `name` = 'aws_region', `type` = 'system';");
-                    $mysql->query("INSERT INTO `options` SET `name` = 'app_url', `value` = '{$app_url}', `type` = 'system';");
-                    $mysql->query("INSERT INTO `options` SET `name` = 'app_url', `value` = '{$_POST['app_name']}', `type` = 'system';");
+                    $mysql->query("INSERT INTO `options` SET `name` = 'app_url', `value` = '" . $app_url . "', `type` = 'system';");
+                    $mysql->query("INSERT INTO `options` SET `name` = 'app_name', `value` = '" . $_POST['app_name'] . "', `type` = 'system';");
+                    $mysql->query("INSERT INTO `options` SET `name` = 'date_format_options_short', `value` = '{\"m-d-Y\": \"m-d-Y\", \"Y-m-d\": \"Y-m-d\"}', `type` = 'system';");
+                    $mysql->query("INSERT INTO `options` SET `name` = 'date_format_options_long', `value` = '{\"M jS, Y g:iA\": \"M jS, Y g:iA\", \"M jS, Y g:i:sA\": \"M jS, Y g:i:sA\", \"F j, Y g:i:sA\": \"F j, Y g:i:sA\", \"F j, Y g:iA\": \"F j, Y g:iA\", \"D M j g:i:sA T Y\": \"D M j g:i:sA T Y\", \"D M jS g:i:sA T Y\": \"D M jS g:i:sA T Y\"}', `type` = 'system';");
+                    $mysql->query("INSERT INTO `options` SET `name` = 'date_format_short', `value` = 'm-d-Y', `type` = 'system';");
+                    $mysql->query("INSERT INTO `options` SET `name` = 'date_format_long', `value` = 'M jS, Y g:iA', `type` = 'system';");
 
                     $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
