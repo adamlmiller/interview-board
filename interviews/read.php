@@ -42,15 +42,15 @@ $interview = $interview->read($_GET['id']);
                         </tr>
                         <tr>
                             <td><strong>Interview Date</strong></td>
-                            <td><?php echo $interview['date']; ?></td>
+                            <td><?php echo date($system['date_format_short'], strtotime($interview['date'])); ?></td>
                             <td><strong>Interview Method</strong></td>
                             <td><?php echo $interview['method']; ?></td>
                         </tr>
                         <tr>
                             <td><strong>Interview Created</strong></td>
-                            <td><?php echo date("M jS, Y g:i:sA", strtotime($interview['created'])); ?></td>
+                            <td><?php echo date($system['date_format_long'], strtotime($interview['created'])); ?></td>
                             <td><strong>Interview Modified</strong></td>
-                            <td><?php echo date("M jS, Y g:i:sA", strtotime($interview['modified'])); ?></td>
+                            <td><?php echo date($system['date_format_long'], strtotime($interview['modified'])); ?></td>
                         </tr>
                         <tr><td colspan="4"><strong>Questions asked by the Interviewee</strong></td></tr>
                         <tr><td colspan="4"><?php echo $interview['qa']; ?></td></tr>

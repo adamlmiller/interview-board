@@ -57,6 +57,36 @@ $settings = $settings->fetch();
                                     <input name="email_from" type="text" class="form-control" id="email_from" aria-describedby="emailFromHelp" placeholder="E-Mail Address" value="<?php echo $settings['email_from']; ?>">
                                     <small id="emailFromHelp" class="form-text text-muted">Enter the e-mail address the e-mail's sent will come from.</small>
                                 </div>
+                                <div class="form-group">
+                                    <label for="date_format_short">Date Format Short</label>
+                                    <select class="form-control selectpicker" name="date_format_short">
+                                        <?php
+
+                                        $options = json_decode($settings['date_format_options_short'], true);
+
+                                        foreach ($options AS $format) {
+                                            echo '<option value="' . $format . '"' . ($format == $settings['date_format_short'] ? ' selected' : '') . '>' . $format . '</option>';
+                                        }
+
+                                        ?>
+                                    </select>
+                                    <small id="dateShortHelp" class="form-text text-muted">The date format used for short dates, without times.</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="date_format_long">Date Format Long</label>
+                                    <select class="form-control selectpicker" name="date_format_long">
+                                        <?php
+
+                                        $options = json_decode($settings['date_format_options_long'], true);
+
+                                        foreach ($options AS $format) {
+                                            echo '<option value="' . $format . '"' . ($format == $settings['date_format_long'] ? ' selected' : '') . '>' . $format . '</option>';
+                                        }
+
+                                        ?>
+                                    </select>
+                                    <small id="dateLongHelp" class="form-text text-muted">The date format used for long dates, with times.</small>
+                                </div>
                             </div>
                             <div class="tab-pane fade" id="nav-aws" role="tabpanel" aria-labelledby="nav-aws-tab">
                                 <div class="form-group">

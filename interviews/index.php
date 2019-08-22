@@ -67,9 +67,9 @@ include __DIR__ . '/../common/header.php';
 
                                     echo '  </td>';
                                     echo '  <td>' . $interview['phone'] . '</td>';
-                                    echo '  <td>' . date("M jS, Y", strtotime($interview['date'])) . '</td>';
-                                    echo '  <td>' . date("M jS, Y g:i:sA", strtotime($interview['created'])) . '</td>';
-                                    echo '  <td>' . date("M jS, Y g:i:sA", strtotime($interview['modified'])) . '</td>';
+                                    echo '  <td>' . date($system['date_format_short'], strtotime($interview['date'])) . '</td>';
+                                    echo '  <td>' . date($system['date_format_long'], strtotime($interview['created'])) . '</td>';
+                                    echo '  <td>' . date($system['date_format_long'], strtotime($interview['modified'])) . '</td>';
                                     echo '  <td class="text-right">';
                                     echo '    <a class="btn btn-sm btn-outline-dark" href="/interviews/read.php?id=' . $interview['id'] . '"><i class="fas fa-glasses"></i></a>';
                                     echo '    <a class="btn btn-sm btn-outline-info" href="/interviews/update.php?id=' . $interview['id'] . '"><i class="fas fa-pencil-alt"></i></a>';

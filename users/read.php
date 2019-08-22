@@ -40,13 +40,13 @@ $user = $user->read($_GET['id']);
                             </tr>
                             <tr>
                                 <td><strong>Created</strong></td>
-                                <td><?php echo date("M jS, Y g:i:sA", strtotime($user['created'])); ?></td>
+                                <td><?php echo date($system['date_format_long'], strtotime($user['created'])); ?></td>
                                 <td><strong>Modified</strong></td>
-                                <td><?php echo date("M jS, Y g:i:sA", strtotime($user['modified'])); ?></td>
+                                <td><?php echo date($system['date_format_long'], strtotime($user['modified'])); ?></td>
                             </tr>
                             <tr>
                                 <td><strong>Last Login</strong></td>
-                                <td><?php echo date("M jS, Y g:i:sA", strtotime($user['lastlogin'])); ?></td>
+                                <td><?php echo date($system['date_format_long'], strtotime($user['lastlogin'])); ?></td>
                                 <td></td>
                                 <td></td>
                             </tr>

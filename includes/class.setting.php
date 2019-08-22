@@ -16,14 +16,12 @@ Class Setting {
         foreach ($data AS $key => $value) {
             if ($query = $mysql->prepare("UPDATE `options` SET `value` = ? WHERE `name` = ? AND `type` = ?")) {
                 if ($query->bind_param("sss", $value, $key, $type)) {
-                    if ($query->execute()) {
-                        return true;
-                    }
+                    $query->execute();
                 }
             }
         }
 
-        return false;
+        return true;
     }
 
     /**
