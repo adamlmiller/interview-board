@@ -5,26 +5,10 @@ $title = 'Read :: Interviews';
 include __DIR__ . '/../common/session.php';
 include __DIR__ . '/../common/header.php';
 
-if (!($query = $mysql->prepare("SELECT * FROM interviews WHERE id = ?"))) {
-    $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to prepare query!</div>';
-} else {
-    if (!$query->bind_param("i", $_GET['id'])) {
-        $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to bind parameters to query!</div>';
-    } else {
-        $query->execute();
-
-        $result = $query->get_result();
-
-        if ($result->num_rows === 0) {
-            $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Unable to find interview as referenced!</div>';
-        } else {
-            $interview = $result->fetch_assoc();
-        }
-    }
-}
+$interview = new Interview();
+$interview = $interview->read($_GET['id']);
 
 ?>
-
 <div class="header">
     <div class="row">
         <div class="col-6">
@@ -35,16 +19,13 @@ if (!($query = $mysql->prepare("SELECT * FROM interviews WHERE id = ?"))) {
         </div>
     </div>
 </div>
-
 <?php if (!empty($interview)) { ?>
 <div class="row">
     <div class="col-12">
         <div class="box">
             <div class="box-body">
                 <h5>General Information</h5>
-
                 <hr />
-
                 <table class="table table-borderless">
                     <tbody>
                         <tr>
@@ -77,37 +58,24 @@ if (!($query = $mysql->prepare("SELECT * FROM interviews WHERE id = ?"))) {
                         <tr><td colspan="4"><?php echo $interview['notes']; ?></td></tr>
                     </tbody>
                 </table>
-
                 <hr />
-
                 <h5>Question and Answer</h5>
-
                 <hr />
-
                 <?php
 
-                if (!($query = $mysql->prepare("SELECT * FROM interviews_answers ia, questions q WHERE q.id = ia.question_id AND interview_id = ?"))) {
-                    echo '<div class="alert alert-danger" role="alert">Error occurred when trying to prepare query!</div>';
-                } else {
-                    if (!$query->bind_param("i", $_GET['id'])) {
-                        echo '<div class="alert alert-danger" role="alert">Error occurred when trying to bind parameters to query! <strong>Error: </strong> ' . $query->error . '</div>';
-                    } else {
-                        $query->execute();
+                $answers = new InterviewAnswer();
+                $answers = $answers->get($interview['id']);
 
-                        $result = $query->get_result();
-
-                        if ($result->num_rows === 0) {
-                            echo '<div class="alert alert-danger" role="alert">Unable to find interview as referenced!</div>';
-                        } else {
-                            while ($answer = $result->fetch_assoc()) {
-                                echo '<div class="card">';
-                                echo '  <div class="card-header"><strong>' . $answer['question'] . '</strong></div>';
-                                echo '  <div class="card-body">' . $answer['answer'] . '</div>';
-                                echo '</div>';
-                                echo '<br />';
-                            }
-                        }
+                if (count($answers) >= 1) {
+                    foreach ($answers AS $answer) {
+                        echo '<div class="card">';
+                        echo '  <div class="card-header"><strong>' . $answer['question'] . '</strong></div>';
+                        echo '  <div class="card-body">' . $answer['answer'] . '</div>';
+                        echo '</div>';
+                        echo '<br />';
                     }
+                } else {
+                    echo '<div class="alert alert-danger" role="alert">No interview questions</div>';
                 }
 
                 ?>
@@ -116,5 +84,4 @@ if (!($query = $mysql->prepare("SELECT * FROM interviews WHERE id = ?"))) {
     </div>
 </div>
 <?php } ?>
-
 <?php include __DIR__ . '/../common/footer.php'; ?>

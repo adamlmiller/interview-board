@@ -6,28 +6,22 @@ include __DIR__ . '/../common/session.php';
 include __DIR__ . '/../common/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
-    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+    $_POST['password'] = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
-    if ($query = $mysql->prepare("INSERT INTO `users` SET `first_name` = ?, `last_name` = ?, `phone` = ?, `email` = ?, `password` = ?, `active` = ?")) {
-        if ($query->bind_param("sssssi", $_POST['first_name'], $_POST['last_name'], $_POST['phone'], $_POST['email'], $password, $_POST['active'])) {
-            if ($query->execute()) {
-                $_SESSION['flash'] = '<div class="alert alert-info" role="alert">User created successfully!</div>';
+    $user = new User();
 
-                header('location: /users/index.php');
-                exit();
-            } else {
-                $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save user!</div>';
-            }
-        } else {
-            $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save user!</div>';
-        }
+    if ($user->create($_POST)) {
+        $_SESSION['flash'] = '<div class="alert alert-info" role="alert">User created successfully</div>';
     } else {
-        $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save user!</div>';
+        $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Failed to create user</div>';
     }
+
+    header('location: /users/index.php');
+
+    exit();
 }
 
 ?>
-
 <div class="header">
     <div class="row">
         <div class="col-6">
@@ -38,9 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
         </div>
     </div>
 </div>
-
-<?php if (!empty($_SESSION['flash'])) echo $_SESSION['flash']; unset($_SESSION['flash']); ?>
-
 <div class="row">
     <div class="col-12">
         <div class="box">
@@ -94,7 +85,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
         </div>
     </div>
 </div>
-
 <script type="text/javascript">
     $(document).ready(function() {
         $('#phone').mask('(000) 000-0000', {placeholder: "(000) 000-0000"});
@@ -143,5 +133,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
         });
     });
 </script>
-
 <?php include __DIR__ . '/../common/footer.php'; ?>

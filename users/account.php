@@ -7,56 +7,23 @@ include __DIR__ . '/../common/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'update') {
     if (!empty($_POST['password'])) {
-        $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-
-        if ($query = $mysql->prepare("UPDATE `users` SET `password` = ? WHERE `id` = ?")) {
-            if ($query->bind_param("si", $password, $_SESSION['user']['id'])) {
-                $query->execute();
-            }
-        }
+        $user = new User();
+        $user->password($_SESSION['user']['id'], $_POST['password']);
     }
 
-    if ($query = $mysql->prepare("UPDATE `users` SET `first_name` = ?, `last_name` = ?, `phone` = ?, `email` = ?, `active` = 1 WHERE `id` = ?")) {
-        if ($query->bind_param("ssssi", $_POST['first_name'], $_POST['last_name'], $_POST['phone'], $_POST['email'], $_SESSION['user']['id'])) {
-            if ($query->execute()) {
-                if ($query->affected_rows === -1) {
-                    $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save profile!';
-                } elseif ($query->affected_rows === 0) {
-                    $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Failed to update profile! Were any changes made?</div>';
-                } else {
-                    $_SESSION['flash'] = '<div class="alert alert-info" role="alert">Your profile has been updated successfully!</div>';
-                }
-            } else {
-                $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save profile!</div>';
-            }
-        } else {
-            $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save profile!</div>';
-        }
+    $user = new User();
+
+    if ($user->update($_SESSION['user']['id'], $_POST)) {
+        $_SESSION['flash'] = '<div class="alert alert-info" role="alert">Account updated successfully</div>';
     } else {
-        $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save profile!</div>';
+        $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Unable to update your account</div>';
     }
 }
 
-if (!($query = $mysql->prepare("SELECT * FROM users WHERE id = ?"))) {
-    $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to prepare query!</div>';
-} else {
-    if (!$query->bind_param("i", $_SESSION['user']['id'])) {
-        $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to bind parameters to query!</div>';
-    } else {
-        $query->execute();
-
-        $result = $query->get_result();
-
-        if ($result->num_rows === 0) {
-            $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Unable to find your profile as referenced!</div>';
-        } else {
-            $user = $result->fetch_assoc();
-        }
-    }
-}
+$user = new User();
+$user = $user->read($_SESSION['user']['id']);
 
 ?>
-
 <div class="header">
     <div class="row">
         <div class="col-6">
@@ -67,9 +34,7 @@ if (!($query = $mysql->prepare("SELECT * FROM users WHERE id = ?"))) {
         </div>
     </div>
 </div>
-
 <?php if (!empty($_SESSION['flash'])) echo $_SESSION['flash']; unset($_SESSION['flash']); ?>
-
 <?php if (isset($user)) { ?>
     <div class="row">
         <div class="col-12">
@@ -110,7 +75,6 @@ if (!($query = $mysql->prepare("SELECT * FROM users WHERE id = ?"))) {
             </div>
         </div>
     </div>
-
     <script type="text/javascript">
         $(document).ready(function() {
             $('#phone').mask('(000) 000-0000', {placeholder: "(000) 000-0000"});
@@ -150,5 +114,4 @@ if (!($query = $mysql->prepare("SELECT * FROM users WHERE id = ?"))) {
         });
     </script>
 <?php } ?>
-
 <?php include __DIR__ . '/../common/footer.php'; ?>

@@ -6,26 +6,20 @@ include __DIR__ . '/../common/session.php';
 include __DIR__ . '/../common/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
-    if ($query = $mysql->prepare("INSERT INTO `questions` SET `name` = ?, `questions_categories_id` = ?, `question` = ?, `active` = ?")) {
-        if ($query->bind_param("sisi", $_POST['name'], $_POST['questions_categories_id'], $_POST['question'], $_POST['active'])) {
-            if ($query->execute()) {
-                $_SESSION['flash'] = '<div class="alert alert-info" role="alert">Question created successfully!</div>';
+    $question = new Question();
 
-                header('location: /questions/index.php');
-                exit();
-            } else {
-                $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save question!</div>';
-            }
-        } else {
-            $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save question!</div>';
-        }
+    if ($question->create($_POST)) {
+        $_SESSION['flash'] = '<div class="alert alert-info" role="alert">Question created successfully</div>';
     } else {
-        $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save question!</div>';
+        $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Failed to created question</div>';
     }
+
+    header('location: /questions/index.php');
+
+    exit();
 }
 
 ?>
-
 <div class="header">
     <div class="row">
         <div class="col-6">
@@ -36,16 +30,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
         </div>
     </div>
 </div>
-
 <?php if (!empty($_SESSION['flash'])) echo $_SESSION['flash']; unset($_SESSION['flash']); ?>
-
 <div class="row">
     <div class="col-12">
         <div class="box">
             <div class="box-body">
                 <form action="" id="frmCreate" method="post">
                     <input name="action" value="create" type="hidden">
-
                     <div class="form-group">
                         <label for="active">Question Category</label>
                         <select class="form-control selectpicker" name="questions_categories_id">
@@ -80,7 +71,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
                             <option value="1" selected>Yes</option>
                         </select>
                     </div>
-
                     <div class="row">
                         <div class="col-6"><a class="btn btn-block btn-outline-dark" href="/questions/"><i class="fas fa-ban"></i> Cancel</a></div>
                         <div class="col-6"><button type="submit" class="btn btn-block btn-info"><i class="fas fa-save"></i> Save Question</button></div>
@@ -90,7 +80,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
         </div>
     </div>
 </div>
-
 <script type="text/javascript">
     $(document).ready(function() {
         $("#frmCreate").validate({
@@ -114,5 +103,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
         });
     });
 </script>
-
 <?php include __DIR__ . '/../common/footer.php'; ?>

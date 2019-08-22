@@ -68,7 +68,7 @@ include __DIR__ . '/../common/header.php';
                                     echo '</tr>';
                                 }
                             } else {
-                                echo '<tr><th colspan="6">No questions found!</th></tr>';
+                                echo '<tr><th colspan="7">No questions found!</th></tr>';
                             }
 
                             ?>

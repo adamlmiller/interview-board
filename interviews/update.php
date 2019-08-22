@@ -6,51 +6,19 @@ include __DIR__ . '/../common/session.php';
 include __DIR__ . '/../common/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'update') {
-    if ($query = $mysql->prepare("UPDATE `interviews` SET `first_name` = ?, `last_name` = ?, `email` = ?, `phone` = ?, `date` = ?, `method` = ?, `qa` = ?, `notes` = ?, `hire` = ? WHERE id = ?")) {
-        if ($query->bind_param("sssssssssi", $_POST['first_name'], $_POST['last_name'], $_POST['email'], $_POST['phone'], $_POST['date'], $_POST['method'], $_POST['qa'], $_POST['notes'], $_POST['hire'], $_GET['id'])) {
-            if ($query->execute()) {
-                $query = $mysql->prepare("DELETE FROM `interviews_answers` WHERE `interview_id` = ?");
-                $query->bind_param("i", $_GET['id']);
-                $query->execute();
+    $interview = new Interview();
 
-                foreach ($_POST['answer'] AS $key => $value) {
-                    $answer = $mysql->prepare("INSERT INTO `interviews_answers` SET `interview_id` = ?, `question_id` = ?, `answer` = ?");
-                    $answer->bind_param("iis", $_GET['id'], $key, $value);
-                    $answer->execute();
-                }
-
-                $_SESSION['flash'] = '<div class="alert alert-info" role="alert">Interview updated successfully!</div>';
-            } else {
-                $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save interview!</div>';
-            }
-        } else {
-            $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save interview!</div>';
-        }
+    if ($interview->update($_GET['id'], $_POST)) {
+        $_SESSION['flash'] = '<div class="alert alert-info" role="alert">Interview updated successfully</div>';
     } else {
-        $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save interview!</div>';
+        $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Failed to update interview</div>';
     }
 }
 
-if (!($query = $mysql->prepare("SELECT * FROM interviews WHERE id = ?"))) {
-    $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to prepare query!</div>';
-} else {
-    if (!$query->bind_param("i", $_GET['id'])) {
-        $_SESSION['flash']  = '<div class="alert alert-danger" role="alert">Error occurred when trying to bind parameters to query!</div>';
-    } else {
-        $query->execute();
-
-        $result = $query->get_result();
-
-        if ($result->num_rows === 0) {
-            $_SESSION['flash']  = '<div class="alert alert-danger" role="alert">Unable to find interview as referenced!</div>';
-        } else {
-            $interview = $result->fetch_assoc();
-        }
-    }
-}
+$interview = new Interview();
+$interview = $interview->read($_GET['id']);
 
 ?>
-
 <div class="header">
     <div class="row">
         <div class="col-6">
@@ -61,9 +29,7 @@ if (!($query = $mysql->prepare("SELECT * FROM interviews WHERE id = ?"))) {
         </div>
     </div>
 </div>
-
 <?php if (!empty($_SESSION['flash'])) echo $_SESSION['flash']; unset($_SESSION['flash']); ?>
-
 <?php if (isset($interview)) { ?>
 <div class="row">
     <div class="col-12">
@@ -73,9 +39,7 @@ if (!($query = $mysql->prepare("SELECT * FROM interviews WHERE id = ?"))) {
                     <input name="action" value="update" type="hidden">
 
                     <h5>General Information</h5>
-
                     <hr />
-
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
@@ -142,48 +106,30 @@ if (!($query = $mysql->prepare("SELECT * FROM interviews WHERE id = ?"))) {
                             </div>
                         </div>
                     </div>
-
                     <hr />
-
                     <div class="row">
                         <div class="col-2"><h5>Questions</h5></div>
                         <div class="col-3"><select class="form-control selectpicker" id="categories"></select></div>
                         <div class="col-5"><select class="form-control selectpicker" id="questions"></select></div>
                         <div class="col-2"><button type="button" class="btn btn-info btn-block btn-add-question"><i class="fas fa-plus"></i> Add Question</button></div>
                     </div>
-
                     <hr />
-
                     <div id="interview_questions">
                     <?php
 
-                    if (!($query = $mysql->prepare("SELECT * FROM interviews_answers ia, questions q WHERE q.id = ia.question_id AND interview_id = ?"))) {
-                        echo '<div class="alert alert-danger" role="alert">Error occurred when trying to prepare query!</div>';
-                    } else {
-                        if (!$query->bind_param("i", $_GET['id'])) {
-                            echo '<div class="alert alert-danger" role="alert">Error occurred when trying to bind parameters to query! <strong>Error: </strong> ' . $query->error . '</div>';
-                        } else {
-                            $query->execute();
+                    $answers = new InterviewAnswer();
+                    $answers = $answers->get($interview['id']);
 
-                            $result = $query->get_result();
-
-                            if ($result->num_rows === 0) {
-                                echo '<div class="alert alert-danger" role="alert">Unable to find interview questions as referenced!</div>';
-                            } else {
-                                $i = 1;
-
-                                while ($answer = $result->fetch_assoc()) {
-                                    echo '<div class="form-group"><label for="question' . $answer['question_id'] . '">' . $answer['question'] . '</label><textarea rows="5" name="answer[' . $answer['question_id'] . ']" class="form-control" id="question' . $answer['question_id'] . '">' . $answer['answer'] . '</textarea></div>';
-
-                                    $i++;
-                                }
-                            }
+                    if (count($answers) >= 1) {
+                        foreach ($answers AS $answer) {
+                            echo '<div class="form-group"><label for="question' . $answer['question_id'] . '">' . $answer['question'] . '</label><textarea rows="5" name="answer[' . $answer['question_id'] . ']" class="form-control" id="question' . $answer['question_id'] . '">' . $answer['answer'] . '</textarea></div>';
                         }
+                    } else {
+                        echo '<div class="alert alert-danger" role="alert">No interview questions</div>';
                     }
 
                     ?>
                     </div>
-
                     <div class="form-group">
                         <label for="hire">Should we hire this person?</label>
                         <select class="form-control selectpicker" name="hire">
@@ -192,7 +138,6 @@ if (!($query = $mysql->prepare("SELECT * FROM interviews WHERE id = ?"))) {
                             <option value="2"<?php echo ($interview['hire'] == 2 ? ' selected' : ''); ?>>Unsure</option>
                         </select>
                     </div>
-
                     <div class="row">
                         <div class="col-6"><a class="btn btn-block btn-outline-dark" href="/interviews/"><i class="fas fa-ban"></i> Cancel</a></div>
                         <div class="col-6"><button type="submit" class="btn btn-block btn-info"><i class="fas fa-save"></i> Save Interview</button></div>
@@ -202,7 +147,6 @@ if (!($query = $mysql->prepare("SELECT * FROM interviews WHERE id = ?"))) {
         </div>
     </div>
 </div>
-
 <script type="text/javascript">
     $(document).ready(function() {
         $('#date').mask('0000-00-00', {placeholder: "yyyy-mm-dd"});
@@ -310,5 +254,4 @@ if (!($query = $mysql->prepare("SELECT * FROM interviews WHERE id = ?"))) {
     });
 </script>
 <?php } ?>
-
 <?php include __DIR__ . '/../common/footer.php'; ?>

@@ -6,51 +6,19 @@ include __DIR__ . '/../common/session.php';
 include __DIR__ . '/../common/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'update') {
-    if (!empty($_POST['password'])) {
-        $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+    $user = new User();
 
-        if ($query = $mysql->prepare("UPDATE `users` SET `password` = ? WHERE `id` = ?")) {
-            if ($query->bind_param("si", $password, $_GET['id'])) {
-                $query->execute();
-            }
-        }
-    }
-
-    if ($query = $mysql->prepare("UPDATE `users` SET `first_name` = ?, `last_name` = ?, `phone` = ?, `email` = ?, `active` = ? WHERE `id` = ?")) {
-        if ($query->bind_param("ssssii", $_POST['first_name'], $_POST['last_name'], $_POST['phone'], $_POST['email'], $_POST['active'], $_GET['id'])) {
-            if ($query->execute()) {
-                $_SESSION['flash'] = '<div class="alert alert-info" role="alert">User updated successfully!</div>';
-            } else {
-                $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save user!</div>';
-            }
-        } else {
-            $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save user!</div>';
-        }
+    if ($user->update($_GET['id'], $_POST)) {
+        $_SESSION['flash'] = '<div class="alert alert-info" role="alert">User updated successfully</div>';
     } else {
-        $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save user!</div>';
+        $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Failed to update user</div>';
     }
 }
 
-if (!($query = $mysql->prepare("SELECT * FROM users WHERE id = ?"))) {
-    $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to prepare query!</div>';
-} else {
-    if (!$query->bind_param("i", $_GET['id'])) {
-        $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to bind parameters to query!</div>';
-    } else {
-        $query->execute();
-
-        $result = $query->get_result();
-
-        if ($result->num_rows === 0) {
-            $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Unable to find user as referenced!</div>';
-        } else {
-            $user = $result->fetch_assoc();
-        }
-    }
-}
+$user = new User();
+$user = $user->read($_GET['id']);
 
 ?>
-
 <div class="header">
     <div class="row">
         <div class="col-6">
@@ -61,9 +29,7 @@ if (!($query = $mysql->prepare("SELECT * FROM users WHERE id = ?"))) {
         </div>
     </div>
 </div>
-
 <?php if (!empty($_SESSION['flash'])) echo $_SESSION['flash']; unset($_SESSION['flash']); ?>
-
 <?php if (isset($user)) { ?>
 <div class="row">
     <div class="col-12">
@@ -113,7 +79,6 @@ if (!($query = $mysql->prepare("SELECT * FROM users WHERE id = ?"))) {
         </div>
     </div>
 </div>
-
 <script type="text/javascript">
     $(document).ready(function() {
         $('#phone').mask('(000) 000-0000', {placeholder: "(000) 000-0000"});
@@ -153,5 +118,4 @@ if (!($query = $mysql->prepare("SELECT * FROM users WHERE id = ?"))) {
     });
 </script>
 <?php } ?>
-
 <?php include __DIR__ . '/../common/footer.php'; ?>

@@ -103,24 +103,24 @@ This section will be used to define releases.
 
 Here's a list of features that I plan to add to this application. When a feature gets added, it will be removed from this list and added above.
 
-1) Schedules - Schedule an interview and send reminders via e-mail.
-2) Jobs - Create job postings with information about each job.
-3) Candidates - Allow registration of candidates so they can sign in and apply for jobs.
-4) Pre-Interview Questionnaire - Add a pre-interview questionnaire.
-5) Questions to Jobs - Allow specific questions to be assigned to specific job postings which will then be used during the interview process instead of the default all questions that are active.
-6) Reports - Generate reports based on different data points (this needs to be further defined)
-7) Search - Add search capabilities to all feature sections
-8) Mobile - Make the UI more user friendly (or create another project and use Ionic to create a mobile app??? will require an api!!!)
+1) **STARTED** - Move actions into classes/models for better usability and code reusing
+2) Schedules - Schedule an interview and send reminders via e-mail.
+3) Jobs - Create job postings with information about each job.
+4) Candidates - Allow registration of candidates so they can sign in and apply for jobs.
+5) Pre-Interview Questionnaire - Add a pre-interview questionnaire.
+6) Questions to Jobs - Allow specific questions to be assigned to specific job postings which will then be used during the interview process instead of the default all questions that are active.
+7) Reports - Generate reports based on different data points (this needs to be further defined)
+8) Search - Add search capabilities to all feature sections
+9) Mobile - Make the UI more user friendly (or create another project and use Ionic to create a mobile app??? will require an api!!!)
 
 ## Ideas
 
 These are items that I am still pondering about doing.
 
-1) Move actions into classes/models for better usability and code reusing
-2) Use jQuery->ajax to load table data (will be good for pagination as well since there is none right now)
-3) ~~Implement pagination (even if we do not do number 2, this should still be done at some point)~~
-4) Create a demo application (reset data every 12 or 24 hours)
-5) Start using releases and branches appropriately
+1) ~~Use jQuery->ajax to load table data (will be good for pagination as well since there is none right now)~~
+2) ~~Implement pagination (even if we do not do number 2, this should still be done at some point)~~
+3) Create a demo application (reset data every 12 or 24 hours)
+4) Start using releases and branches appropriately
 
 ## Recent Additions
 
@@ -145,6 +145,13 @@ These are items that I am still pondering about doing.
 2019-08-19 - Added Sign Up form (which can be turned off)
 2019-08-20 - Added reset.php for resetting password
 2019-08-20 - Added tabs to settings to help organize it
+2019-08-21 - Migrated "User" actions to User() class
+2019-08-21 - Migrated "My Account" to User() class
+2019-08-21 - Migrated "Question Category" actions to QuestionCategory() class
+2019-08-21 - Migrated "Question" actions to Question() class
+2019-08-21 - Migrated "Interview" actions to Interview() class
+2019-08-21 - Added "InterviewAnswer" class for actions used in "Interview" actions
+2019-08-21 - Migrated "Settings" actions to Setting() class
 ```
 
 ## Screenshots

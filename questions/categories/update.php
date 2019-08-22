@@ -6,41 +6,19 @@ include __DIR__ . '/../../common/session.php';
 include __DIR__ . '/../../common/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'update') {
-    if ($query = $mysql->prepare("UPDATE `questions_categories` SET `name` = ?, `description` = ?, `active` = ? WHERE `id` = ?")) {
-        if ($query->bind_param("ssii", $_POST['name'], $_POST['description'], $_POST['active'], $_POST['id'])) {
-            if ($query->execute()) {
-                $_SESSION['flash'] = '<div class="alert alert-info" role="alert">Question Category updated successfully!</div>';
-            } else {
-                $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save question category!</div>';
-            }
-        } else {
-            $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save question category!</div>';
-        }
+    $category = new QuestionCategory();
+
+    if ($category->update($_GET['id'], $_POST)) {
+        $_SESSION['flash'] = '<div class="alert alert-info" role="alert">Question category saved successfully</div>';
     } else {
-        $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save question category!</div>';
+        $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Failed to update question category</div>';
     }
 }
 
-if (!($query = $mysql->prepare("SELECT * FROM questions_categories WHERE id = ?"))) {
-    $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to prepare query!</div>';
-} else {
-    if (!$query->bind_param("i", $_GET['id'])) {
-        $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to bind parameters to query!</div>';
-    } else {
-        $query->execute();
-
-        $result = $query->get_result();
-
-        if ($result->num_rows === 0) {
-            $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Unable to find question category as referenced!</div>';
-        } else {
-            $category = $result->fetch_assoc();
-        }
-    }
-}
+$category = new QuestionCategory();
+$category = $category->read($_GET['id']);
 
 ?>
-
 <div class="header">
     <div class="row">
         <div class="col-6">
@@ -51,9 +29,7 @@ if (!($query = $mysql->prepare("SELECT * FROM questions_categories WHERE id = ?"
         </div>
     </div>
 </div>
-
 <?php if (!empty($_SESSION['flash'])) echo $_SESSION['flash']; unset($_SESSION['flash']); ?>
-
 <?php if (isset($category)) { ?>
     <div class="row">
         <div class="col-12">
@@ -62,7 +38,6 @@ if (!($query = $mysql->prepare("SELECT * FROM questions_categories WHERE id = ?"
                     <form action="" id="frmUpdate" method="post">
                         <input name="action" value="update" type="hidden">
                         <input name="id" value="<?php echo $category['id']; ?>" type="hidden">
-
                         <div class="form-group">
                             <label for="name">Name</label>
                             <input name="name" type="text" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Name" value="<?php echo $category['name']; ?>">
@@ -80,7 +55,6 @@ if (!($query = $mysql->prepare("SELECT * FROM questions_categories WHERE id = ?"
                                 <option value="1"<?php echo ($category['active'] == 1 ? ' selected' : ''); ?>>Yes</option>
                             </select>
                         </div>
-
                         <div class="row">
                             <div class="col-6"><a class="btn btn-block btn-outline-dark" href="/questions/categories/"><i class="fas fa-ban"></i> Cancel</a></div>
                             <div class="col-6"><button type="submit" class="btn btn-block btn-info"><i class="fas fa-save"></i> Save Category</button></div>
@@ -91,7 +65,6 @@ if (!($query = $mysql->prepare("SELECT * FROM questions_categories WHERE id = ?"
         </div>
     </div>
 <?php } ?>
-
 <script type="text/javascript">
     $(document).ready(function() {
         $("#frmUpdate").validate({
@@ -115,5 +88,4 @@ if (!($query = $mysql->prepare("SELECT * FROM questions_categories WHERE id = ?"
         });
     });
 </script>
-
 <?php include __DIR__ . '/../../common/footer.php'; ?>

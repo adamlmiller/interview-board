@@ -3,7 +3,7 @@
 include __DIR__ . '/config.php';
 include __DIR__ . '/database.php';
 include __DIR__ . '/system.php';
-include __DIR__ . '/../includes/class.utility.php';
+include __DIR__ . '/classes.php';
 
 if ($app = $mysql->query("SELECT value FROM options WHERE name = 'app_name'")) {
     $title = $title . ' :: ' . $app->fetch_assoc()['value'];

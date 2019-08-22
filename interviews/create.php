@@ -6,34 +6,20 @@ include __DIR__ . '/../common/session.php';
 include __DIR__ . '/../common/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
-    if ($query = $mysql->prepare("INSERT INTO `interviews` SET `user_id` = ?, `first_name` = ?, `last_name` = ?, `email` = ?, `phone` = ?, `date` = ?, `method` = ?, `qa` = ?, `notes` = ?, `hire` = ?")) {
-        if ($query->bind_param("isssssssss", $_SESSION['user']['id'], $_POST['first_name'], $_POST['last_name'], $_POST['email'], $_POST['phone'], $_POST['date'], $_POST['method'], $_POST['qa'], $_POST['notes'], $_POST['hire'])) {
-            if ($query->execute()) {
-                $interview_id = $query->insert_id;
+    $interview = new Interview();
 
-                foreach ($_POST['answer'] AS $key => $value) {
-                    $answer = $mysql->prepare("INSERT INTO `interviews_answers` SET `interview_id` = ?, `question_id` = ?, `answer` = ?");
-                    $answer->bind_param("iis", $interview_id, $key, $value);
-                    $answer->execute();
-                }
-
-                $_SESSION['flash'] = '<div class="alert alert-success" role="alert">Interview created successfully!</div>';
-
-                header('location: /interviews/index.php');
-                exit();
-            } else {
-                $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save interview!</div>';
-            }
-        } else {
-            $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save interview!</div>';
-        }
+    if ($interview->create($_POST)) {
+        $_SESSION['flash'] = '<div class="alert alert-info" role="alert">Interview created successfully</div>';
     } else {
-        $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save interview!</div>';
+        $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Failed to create interview</div>';
     }
+
+    header('location: /interviews/index.php');
+
+    exit();
 }
 
 ?>
-
 <div class="header">
     <div class="row">
         <div class="col-6">
@@ -44,20 +30,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
         </div>
     </div>
 </div>
-
 <?php if (!empty($_SESSION['flash'])) echo $_SESSION['flash']; unset($_SESSION['flash']); ?>
-
 <div class="row">
     <div class="col-12">
         <div class="box">
             <div class="box-body">
                 <form action="" id="frmCreate" method="post">
                     <input name="action" value="create" type="hidden">
-
                     <h5>General Information</h5>
-
                     <hr />
-
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
@@ -124,20 +105,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
                             </div>
                         </div>
                     </div>
-
                     <hr />
-
                     <div class="row">
                         <div class="col-2"><h5>Questions</h5></div>
                         <div class="col-3"><select class="form-control selectpicker" id="categories"></select></div>
                         <div class="col-5"><select class="form-control selectpicker" id="questions"></select></div>
                         <div class="col-2"><button type="button" class="btn btn-info btn-block btn-add-question"><i class="fas fa-plus"></i> Add Question</button></div>
                     </div>
-
                     <hr />
-
                     <div id="interview_questions"></div>
-
                     <div class="form-group">
                         <label for="hire">Should we hire this person?</label>
                         <select class="form-control selectpicker" name="hire">
@@ -146,7 +122,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
                             <option value="2">Unsure</option>
                         </select>
                     </div>
-
                     <div class="row">
                         <div class="col-6"><a class="btn btn-block btn-outline-dark" href="/interviews/"><i class="fas fa-ban"></i> Cancel</a></div>
                         <div class="col-6"><button type="submit" class="btn btn-block btn-info"><i class="fas fa-save"></i> Save Interview</button></div>
@@ -156,7 +131,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
         </div>
     </div>
 </div>
-
 <script type="text/javascript">
     $(document).ready(function() {
         $('#date').mask('0000-00-00', {placeholder: "yyyy-mm-dd"});
@@ -263,5 +237,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
         });
     });
 </script>
-
 <?php include __DIR__ . '/../common/footer.php'; ?>

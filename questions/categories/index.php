@@ -6,7 +6,6 @@ include __DIR__ . '/../../common/session.php';
 include __DIR__ . '/../../common/header.php';
 
 ?>
-
 <div class="header">
     <div class="row">
         <div class="col-6">
@@ -19,9 +18,7 @@ include __DIR__ . '/../../common/header.php';
         </div>
     </div>
 </div>
-
 <?php if (!empty($_SESSION['flash'])) echo $_SESSION['flash']; unset($_SESSION['flash']); ?>
-
 <div class="row">
     <div class="col-12">
         <div class="box">
@@ -74,20 +71,17 @@ include __DIR__ . '/../../common/header.php';
                         ?>
                         </tbody>
                     </table>
-
                     <?php echo $paginator->links($links); ?>
                 <?php } ?>
             </div>
         </div>
     </div>
 </div>
-
 <div class="modal fade modal-delete" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content"></div>
     </div>
 </div>
-
 <script type="text/javascript">
     $(document).ready(function() {
         $('.btn-delete').on('click', function() {
@@ -105,5 +99,4 @@ include __DIR__ . '/../../common/header.php';
         });
     });
 </script>
-
 <?php include __DIR__ . '/../../common/footer.php'; ?>

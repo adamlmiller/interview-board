@@ -6,35 +6,19 @@ include __DIR__ . '/../common/session.php';
 include __DIR__ . '/../common/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    foreach ($_POST AS $key => $value) {
-        if ($query = $mysql->prepare("UPDATE `options` SET `value` = ? WHERE `name` = ? AND `type` = 'system'")) {
-            if ($query->bind_param("ss", $value, $key)) {
-                if ($query->execute()) {
-                    $_SESSION['flash'] = '<div class="alert alert-info" role="alert">Settings updated successfully!</div>';
-                } else {
-                    $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save settings!</div>';
-                }
-            } else {
-                $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save settings!</div>';
-            }
-        } else {
-            $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Error occurred when trying to save settings!</div>';
-        }
+    $setting = new Setting();
+
+    if ($setting->update($_POST)) {
+        $_SESSION['flash'] = '<div class="alert alert-info" role="alert">Settings updated successfully</div>';
+    } else {
+        $_SESSION['flash'] = '<div class="alert alert-danger" role="alert">Failed to update settings</div>';
     }
 }
 
-if ($query = $mysql->query("SELECT * FROM options WHERE type = 'system'")) {
-    $settings = [];
-
-    if (count($query->num_rows) >= 1) {
-        while ($setting = $query->fetch_assoc()) {
-            $settings[$setting['name']] = $setting['value'];
-        }
-    }
-}
+$settings = new Setting();
+$settings = $settings->fetch();
 
 ?>
-
 <div class="header">
     <div class="row">
         <div class="col-12">
@@ -42,9 +26,7 @@ if ($query = $mysql->query("SELECT * FROM options WHERE type = 'system'")) {
         </div>
     </div>
 </div>
-
 <?php if (!empty($_SESSION['flash'])) echo $_SESSION['flash']; unset($_SESSION['flash']); ?>
-
 <?php if (isset($settings)) { ?>
     <div class="row">
         <div class="col-12">
@@ -113,7 +95,6 @@ if ($query = $mysql->query("SELECT * FROM options WHERE type = 'system'")) {
                                 </div>
                             </div>
                         </div>
-
                         <button type="submit" class="btn btn-block btn-info"><i class="fas fa-save"></i> Save Settings</button>
                     </form>
                 </div>
@@ -121,5 +102,4 @@ if ($query = $mysql->query("SELECT * FROM options WHERE type = 'system'")) {
         </div>
     </div>
 <?php } ?>
-
 <?php include __DIR__ . '/../common/footer.php'; ?>
