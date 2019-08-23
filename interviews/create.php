@@ -75,7 +75,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'create') {
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="date">Interview Date</label>
-                                <input name="date" type="text" class="form-control" id="date" aria-describedby="dateHelp" placeholder="yyyy-mm-dd">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
+                                    </div>
+                                    <input name="date" type="text" class="form-control" id="date" aria-describedby="dateHelp" placeholder="yyyy-mm-dd" data-provide="datepicker" data-date-format="yyyy-mm-dd" data-date-autoclose="true">
+                                </div>
                                 <small id="dateHelp" class="form-text text-muted">Enter the interview date in the proper format. <span class="text-info text-small">Formatting happens automatically.</span></small>
                             </div>
                         </div>

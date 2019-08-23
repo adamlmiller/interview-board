@@ -21,6 +21,7 @@ if (!empty(explode('/', $_SERVER['REQUEST_URI'])[2]) && (explode('/', $_SERVER['
     <title><?php echo $title; ?></title>
     <link href="/stylesheet/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="/stylesheet/bootstrap-select.min.css" rel="stylesheet" type="text/css" />
+    <link href="/stylesheet/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
     <link href="/stylesheet/fontawesome.min.css" rel="stylesheet" type="text/css" />
     <link href="/stylesheet/stylesheet.css" rel="stylesheet" type="text/css" />
     <link href="/stylesheet/fullcalendar.min.css" rel="stylesheet" type="text/css" />
@@ -31,6 +32,7 @@ if (!empty(explode('/', $_SERVER['REQUEST_URI'])[2]) && (explode('/', $_SERVER['
     <script type="text/javascript" src="/javascript/popper.min.js"></script>
     <script type="text/javascript" src="/javascript/bootstrap.min.js"></script>
     <script type="text/javascript" src="/javascript/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="/javascript/bootstrap-datepicker.min.js"></script>
 </head>
 <body>
 

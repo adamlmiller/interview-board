@@ -46,7 +46,7 @@ $user = $user->read($_GET['id']);
                             </tr>
                             <tr>
                                 <td><strong>Last Login</strong></td>
-                                <td><?php echo date($system['date_format_long'], strtotime($user['lastlogin'])); ?></td>
+                                <td><?php echo ($user['lastlogin'] ? date($system['date_format_long'], strtotime($user['lastlogin'])) : '<span class="badge badge-pill badge-danger">Never</span>'); ?></td>
                                 <td></td>
                                 <td></td>
                             </tr>

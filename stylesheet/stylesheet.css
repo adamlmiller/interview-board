@@ -14,27 +14,7 @@ h4 { font-size:150%; }
 h5 { font-size:140%; }
 h6 { font-size:130%; }
 
-textarea:focus,
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="datetime"]:focus,
-input[type="datetime-local"]:focus,
-input[type="date"]:focus,
-input[type="month"]:focus,
-input[type="time"]:focus,
-input[type="week"]:focus,
-input[type="number"]:focus,
-input[type="email"]:focus,
-input[type="url"]:focus,
-input[type="search"]:focus,
-input[type="tel"]:focus,
-input[type="color"]:focus,
-.uneditable-input:focus {
-    border-color: rgba(23, 162, 184, 0.75);
-    box-shadow:none !important;
-    outline:0 none;
-}
-
+textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[type="datetime"]:focus, input[type="datetime-local"]:focus, input[type="date"]:focus, input[type="month"]:focus, input[type="time"]:focus, input[type="week"]:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="url"]:focus, input[type="search"]:focus, input[type="tel"]:focus, input[type="color"]:focus, .uneditable-input:focus { border-color:rgba(23, 162, 184, 0.75); box-shadow:none !important; outline:0 none; }
 label.error { color:#dc3545 !important; }
 
 .text-small { font-size:80% !important; }
@@ -100,3 +80,6 @@ label.error { color:#dc3545 !important; }
 .tab-content { padding-top:1em; }
 
 .nav a:link.nav-item, .nav a:active.nav-item, .nav a:visited.nav-item { color:#17a2b8; }
+
+.datepicker table tr td.active.active, .datepicker table tr td.active.highlighted.active, .datepicker table tr td.active.highlighted:active, .datepicker table tr td.active:active { color:#fff; background-color:#17a2b8; border-color:#17a2b8; }
+.datepicker table tr td.active.active:hover { color:#fff; background-color:#17a2b8; border-color:#17a2b8; }

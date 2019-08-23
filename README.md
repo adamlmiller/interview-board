@@ -153,6 +153,7 @@ These are items that I am still pondering about doing.
 2019-08-21 - Added "InterviewAnswer" class for actions used in "Interview" actions
 2019-08-21 - Migrated "Settings" actions to Setting() class
 2019-08-21 - Added date format settings
+2019-08-22 - Fixed date formatting in Users :: Read and added Date Picker to Interviews
 ```
 
 ## Screenshots
